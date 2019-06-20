@@ -2,7 +2,11 @@ import React, { Component } from 'react';
 import Cat from './components/Cat';
 import Controls from './components/Controls';
 import Counter from './components/Counter';
+import GameOver from './components/GameOver';
+import StartingScreen from './components/StartingScreen';
 import BadFruit from './components/BadFruit';
+import SafeFruit from './components/SafeFruit';
+
 import {
   AppRegistry,
   StyleSheet,
@@ -28,34 +32,109 @@ export default class App extends Component {
       // a more generic location of cat player
       playerSide: 'left',
 
-      // location of
-      moveBadFruitVal: new Animated.Value(0),
+      // location of poisonous fruits
+      moveBadFruitVal: new Animated.Value(-100),
       badFruitStartposX: 0,
       badFruitSide: 'left',
-      badFruitSpeed: 4200,
+      badFruitSpeed: 4000,
+      badFruit: 'lemon',
+
+      // location of safe fruits
+      moveSafeFruitVal: new Animated.Value(-100),
+      safeFruitStartposX: 0,
+      safeFruitSide: 'left',
+      safeFruitSpeed: 4000,
+      safeFruit: 'kiwi',
 
       points: 0,
+      startMode: true,
       gameOver: false,
     };
     this.movePlayer = this.movePlayer.bind(this);
     this.animateBadFruit = this.animateBadFruit.bind(this);
+    this.animateSafeFruit = this.animateSafeFruit.bind(this);
+    this.animateRandomFruit = this.animateRandomFruit.bind(this);
+    this.startGame = this.startGame.bind(this);
   }
-  componentDidMount() {
-    this.animateBadFruit();
+  startGame() {
+    this.setState({ startMode: false, gameOver: false, points: 0 });
+    this.animateRandomFruit();
   }
-  animateBadFruit() {
+  animateRandomFruit() {
+    let badOrSafeRandomizer = Math.floor(Math.random() * 2);
+    let safeFruitArr = [
+      'kiwi',
+      'pineapple',
+      'strawberry',
+      'watermelon',
+      'banana',
+    ];
+    let badFruitArr = ['lemon', 'orange', 'peach', 'cherry', 'apple'];
+    let fruitRandomizer = Math.floor(Math.random() * 5);
+    if (badOrSafeRandomizer) {
+      this.animateBadFruit(badFruitArr[fruitRandomizer]);
+    } else {
+      this.animateSafeFruit(safeFruitArr[fruitRandomizer]);
+    }
+  }
+  animateSafeFruit(fruit) {
+    // if the game isn't over...
     if (!this.state.gameOver) {
+      this.setState({ safeFruit: fruit });
+      this.state.moveSafeFruitVal.setValue(-100);
+      const windowH = Dimensions.get('window').height;
+      let randomizer = Math.floor(Math.random() * 3);
+      if (randomizer === 2) {
+        randomizer = 40;
+        this.setState({ safeFruitSide: 'left' });
+      } else if (randomizer === 0) {
+        randomizer = Dimensions.get('window').width - 140;
+        this.setState({ safeFruitSide: 'right' });
+      }
+      this.setState({ safeFruitStartposX: randomizer });
+      let gainedPoint = false;
+      let refreshIntervalId = setInterval(() => {
+        if (
+          this.state.moveSafeFruitVal._value > windowH - 200 &&
+          this.state.moveSafeFruitVal._value < windowH - 100 &&
+          this.state.playerSide === this.state.safeFruitSide &&
+          !gainedPoint
+        ) {
+          gainedPoint = true;
+          let points = this.state.points;
+          this.setState({ points: points + 1 });
+        }
+      }, 50);
+      setInterval(() => {
+        let safeFruitSpeed = this.state.safeFruitSpeed;
+        this.setState({ safeFruitSpeed: safeFruitSpeed - 50 });
+      }, 20000);
+      Animated.timing(this.state.moveSafeFruitVal, {
+        toValue: Dimensions.get('window').height,
+        duration: this.state.safeFruitSpeed,
+      }).start(event => {
+        if (event.finished && this.state.gameOver === false) {
+          clearInterval(refreshIntervalId);
+          this.animateRandomFruit();
+        }
+      });
+    }
+  }
+  animateBadFruit(fruit) {
+    // if the game isn't over...
+    if (!this.state.gameOver) {
+      this.setState({ badFruit: fruit });
       this.state.moveBadFruitVal.setValue(-100);
       const windowH = Dimensions.get('window').height;
-      let random = Math.floor(Math.random() * 3);
-      if (random === 2) {
-        random = 40;
+      let randomizer = Math.floor(Math.random() * 3);
+      if (randomizer === 2) {
+        randomizer = 40;
         this.setState({ badFruitSide: 'left' });
-      } else {
-        random = Dimensions.get('window').width - 140;
+      } else if (randomizer === 0) {
+        randomizer = Dimensions.get('window').width - 140;
         this.setState({ badFruitSide: 'right' });
       }
-      this.setState({ badFruitStartposX: random });
+      this.setState({ badFruitStartposX: randomizer });
       let refreshIntervalId = setInterval(() => {
         if (
           this.state.moveBadFruitVal._value > windowH - 200 &&
@@ -77,7 +156,7 @@ export default class App extends Component {
           clearInterval(refreshIntervalId);
           let points = this.state.points;
           this.setState({ points: points + 1 });
-          this.animateBadFruit();
+          this.animateRandomFruit();
         }
       });
     }
@@ -104,14 +183,22 @@ export default class App extends Component {
         style={styles.container}
       >
         <Counter points={this.state.points} />
+        {this.state.startMode && <StartingScreen startGame={this.startGame} />}
+        {this.state.gameOver && <GameOver startGame={this.startGame} />}
         <Cat
           movePlayerVal={this.state.movePlayerVal}
           playerSide={this.state.playerSide}
           gameOver={this.state.gameOver}
         />
+        <SafeFruit
+          safeFruitStartposX={this.state.safeFruitStartposX}
+          moveSafeFruitVal={this.state.moveSafeFruitVal}
+          safeFruit={this.state.safeFruit}
+        />
         <BadFruit
           badFruitStartposX={this.state.badFruitStartposX}
           moveBadFruitVal={this.state.moveBadFruitVal}
+          badFruit={this.state.badFruit}
         />
         <Controls movePlayer={this.movePlayer} />
       </ImageBackground>

@@ -3,8 +3,7 @@ import { Animated } from 'react-native';
 
 export default class BadFruit extends Component {
   render() {
-    let badFruitRandomizer = Math.floor(Math.random() * 5);
-    if (badFruitRandomizer === 0) {
+    if (this.props.badFruit === 'lemon') {
       return (
         <Animated.Image
           source={require('./lemon.png')}
@@ -15,7 +14,7 @@ export default class BadFruit extends Component {
           }}
         />
       );
-    } else if (badFruitRandomizer === 1) {
+    } else if (this.props.badFruit === 'orange') {
       return (
         <Animated.Image
           source={require('./orange.png')}
@@ -26,7 +25,7 @@ export default class BadFruit extends Component {
           }}
         />
       );
-    } else if (badFruitRandomizer === 2) {
+    } else if (this.props.badFruit === 'peach') {
       return (
         <Animated.Image
           source={require('./peach.png')}
@@ -37,7 +36,7 @@ export default class BadFruit extends Component {
           }}
         />
       );
-    } else if (badFruitRandomizer === 3) {
+    } else if (this.props.badFruit === 'cherry') {
       return (
         <Animated.Image
           source={require('./cherry.png')}
@@ -48,7 +47,7 @@ export default class BadFruit extends Component {
           }}
         />
       );
-    } else if (badFruitRandomizer === 4) {
+    } else if (this.props.badFruit === 'apple') {
       return (
         <Animated.Image
           source={require('./apple.png')}
