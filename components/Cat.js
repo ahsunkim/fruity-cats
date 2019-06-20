@@ -3,7 +3,6 @@ import { Animated } from 'react-native';
 
 export default class Cat extends Component {
   render() {
-
     if (this.props.playerSide === 'left') {
       return (
         <Animated.Image
@@ -11,7 +10,7 @@ export default class Cat extends Component {
           style={{
             position: 'absolute',
             zIndex: 1,
-            height: 100,
+            height: 110,
             width: 80,
             bottom: 0,
             resizeMode: 'stretch',
@@ -30,10 +29,10 @@ export default class Cat extends Component {
           style={{
             position: 'absolute',
             zIndex: 1,
-            height: 100,
+            height: 110,
             width: 80,
             bottom: 0,
-            resizeMode: 'stretch',
+            resizeMode: 'cover',
             transform: [
               {
                 translateX: this.props.movePlayerVal,

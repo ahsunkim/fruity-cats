@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import Cat from './Cat';
-import Controls from './Controls';
-import Counter from './Counter';
-import Dog from './Dog';
+import Cat from './components/Cat';
+import Controls from './components/Controls';
+import Counter from './components/Counter';
+import Dog from './components/Dog';
 import {
   AppRegistry,
   StyleSheet,
