@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import Cat from './components/Cat';
 import Controls from './components/Controls';
 import Counter from './components/Counter';
-import Dog from './components/Dog';
+import BadFruit from './components/BadFruit';
 import {
   AppRegistry,
   StyleSheet,
@@ -29,56 +29,55 @@ export default class App extends Component {
       playerSide: 'left',
 
       // location of
-      moveDogVal: new Animated.Value(0),
-      dogStartposX: 0,
-      dogSide: 'left',
-      dogSpeed: 4200,
+      moveBadFruitVal: new Animated.Value(0),
+      badFruitStartposX: 0,
+      badFruitSide: 'left',
+      badFruitSpeed: 4200,
 
       points: 0,
       gameOver: false,
     };
     this.movePlayer = this.movePlayer.bind(this);
-    this.animateDog = this.animateDog.bind(this);
+    this.animateBadFruit = this.animateBadFruit.bind(this);
   }
   componentDidMount() {
-    this.animateDog();
+    this.animateBadFruit();
   }
-  animateDog() {
+  animateBadFruit() {
     if (!this.state.gameOver) {
-      this.state.moveDogVal.setValue(-100);
+      this.state.moveBadFruitVal.setValue(-100);
       const windowH = Dimensions.get('window').height;
       let random = Math.floor(Math.random() * 3);
       if (random === 2) {
         random = 40;
-        this.setState({ dogSide: 'left' });
+        this.setState({ badFruitSide: 'left' });
       } else {
         random = Dimensions.get('window').width - 140;
-        this.setState({ dogSide: 'right' });
+        this.setState({ badFruitSide: 'right' });
       }
-      this.setState({ dogStartposX: random });
+      this.setState({ badFruitStartposX: random });
       let refreshIntervalId = setInterval(() => {
         if (
-          this.state.moveDogVal._value > windowH - 200 &&
-          this.state.moveDogVal._value < windowH - 100 &&
-          this.state.playerSide === this.state.dogSide
+          this.state.moveBadFruitVal._value > windowH - 200 &&
+          this.state.moveBadFruitVal._value < windowH - 100 &&
+          this.state.playerSide === this.state.badFruitSide
         ) {
           this.setState({ gameOver: true });
-          this.gameOver();
         }
       }, 50);
       setInterval(() => {
-        let dogSpeed = this.state.dogSpeed;
-        this.setState({ dogSpeed: dogSpeed - 50 });
+        let badFruitSpeed = this.state.badFruitSpeed;
+        this.setState({ badFruitSpeed: badFruitSpeed - 50 });
       }, 20000);
-      Animated.timing(this.state.moveDogVal, {
+      Animated.timing(this.state.moveBadFruitVal, {
         toValue: Dimensions.get('window').height,
-        duration: this.state.dogSpeed,
+        duration: this.state.badFruitSpeed,
       }).start(event => {
         if (event.finished && this.state.gameOver === false) {
           clearInterval(refreshIntervalId);
           let points = this.state.points;
           this.setState({ points: points + 1 });
-          this.animateDog();
+          this.animateBadFruit();
         }
       });
     }
@@ -98,23 +97,21 @@ export default class App extends Component {
       }).start();
     }
   }
-  gameOver() {
-    alert('You lost!');
-  }
   render() {
     return (
       <ImageBackground
-        source={require('./background.png')}
+        source={require('./jungle.jpg')}
         style={styles.container}
       >
         <Counter points={this.state.points} />
         <Cat
           movePlayerVal={this.state.movePlayerVal}
           playerSide={this.state.playerSide}
+          gameOver={this.state.gameOver}
         />
-        <Dog
-          dogStartposX={this.state.dogStartposX}
-          moveDogVal={this.state.moveDogVal}
+        <BadFruit
+          badFruitStartposX={this.state.badFruitStartposX}
+          moveBadFruitVal={this.state.moveBadFruitVal}
         />
         <Controls movePlayer={this.movePlayer} />
       </ImageBackground>

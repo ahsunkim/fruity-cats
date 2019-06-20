@@ -3,6 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
   points: {
+    top: 40,
     width: 80,
     height: 80,
     backgroundColor: '#fff',

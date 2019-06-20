@@ -3,10 +3,29 @@ import { Animated } from 'react-native';
 
 export default class Cat extends Component {
   render() {
-    if (this.props.playerSide === 'left') {
+    if (this.props.gameOver) {
       return (
         <Animated.Image
-          source={require('./miniCat.png')}
+          source={require('./hurtCat.png')}
+          style={{
+            position: 'absolute',
+            zIndex: 1,
+            height: 110,
+            width: 150,
+            bottom: 0,
+            resizeMode: 'cover',
+            transform: [
+              {
+                translateX: this.props.movePlayerVal,
+              },
+            ],
+          }}
+        />
+      );
+    } else if (this.props.playerSide === 'left') {
+      return (
+        <Animated.Image
+          source={require('./catLeft.png')}
           style={{
             position: 'absolute',
             zIndex: 1,
@@ -22,10 +41,10 @@ export default class Cat extends Component {
           }}
         />
       );
-    } else {
+    } else if (this.props.playerSide === 'right') {
       return (
         <Animated.Image
-          source={require('./miniCat2.png')}
+          source={require('./catRight.png')}
           style={{
             position: 'absolute',
             zIndex: 1,
