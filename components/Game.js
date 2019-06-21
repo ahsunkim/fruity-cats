@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Cat from './components/Cat';
-import Controls from './components/Controls';
-import Counter from './components/Counter';
-import GameOver from './components/GameOver';
-import StartingScreen from './components/StartingScreen';
-import BadFruit from './components/BadFruit';
-import SafeFruit from './components/SafeFruit';
+import Cat from './Cat';
+import Controls from './Controls';
+import Counter from './Counter';
+import GameOver from './GameOver';
+import StartingScreen from './StartingScreen';
+import BadFruit from './BadFruit';
+import SafeFruit from './SafeFruit';
 
 import {
   StyleSheet,

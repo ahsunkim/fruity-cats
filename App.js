@@ -1,5 +1,5 @@
 import { AppRegistry } from 'react-native';
-import Game from './Game';
+import Game from './components/Game';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
