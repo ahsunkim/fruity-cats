@@ -1,8 +1,8 @@
 {
   "expo": {
     "name": "Fruity Cats",
-    "slug": "stackathon",
-    "privacy": "public",
+    "slug": "fruitycats",
+    "privacy": "unlisted",
     "sdkVersion": "33.0.0",
     "platforms": ["ios", "android", "web"],
     "version": "1.0.0",
