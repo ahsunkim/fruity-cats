@@ -27,10 +27,10 @@ export default class StartingScreen extends Component {
     return (
       <View style={styles.container}>
         <ImageBackground
-          source={require('./gameMessage.png')}
+          source={require('./assets/gameMessage.png')}
           style={styles.messageBoard}
         >
-          <Image source={require('./fruityCats.png')} style={styles.logo} />
+          <Image source={require('./assets/fruityCats.png')} style={styles.logo} />
           <View style={styles.buttonView}>
             <Button
               color="#5A4224"

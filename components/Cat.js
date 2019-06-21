@@ -17,7 +17,7 @@ export default class Cat extends Component {
     if (this.props.gameOver) {
       return (
         <Animated.Image
-          source={require('./hurtCat.png')}
+          source={require('./assets/hurtCat.png')}
           style={[
             catStyle,
             {
@@ -31,7 +31,7 @@ export default class Cat extends Component {
     if (this.props.playerCaught) {
       return (
         <Animated.Image
-          source={require('./catCaught.png')}
+          source={require('./assets/catCaught.png')}
           style={[
             catStyle,
             {
@@ -47,7 +47,7 @@ export default class Cat extends Component {
     ) {
       return (
         <Animated.Image
-          source={require('./catLeft.png')}
+          source={require('./assets/catLeft.png')}
           style={[
             catStyle,
             {
@@ -60,7 +60,7 @@ export default class Cat extends Component {
     } else if (this.props.playerSide === 'right') {
       return (
         <Animated.Image
-          source={require('./catRight.png')}
+          source={require('./assets/catRight.png')}
           style={[
             catStyle,
             {

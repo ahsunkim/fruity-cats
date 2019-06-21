@@ -201,7 +201,7 @@ export default class Game extends Component {
   render() {
     return (
       <ImageBackground
-        source={require('./jungle.jpg')}
+        source={require('./assets/jungle.jpg')}
         style={styles.container}
       >
         <Counter points={this.state.points} />
