@@ -1,26 +1,21 @@
 import React from 'react';
-import { View, StyleSheet, Text } from 'react-native';
+import {
+  View,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+} from 'react-native';
 
 const styles = StyleSheet.create({
   control: {
     alignItems: 'center',
+    justifyContent: 'center',
     flexDirection: 'row',
-    bottom: 100,
+    bottom: 150,
   },
-  left: {
-    flex: 1,
-    color: '#fff',
-    fontSize: 60,
-    fontWeight: 'bold',
-    textAlign: 'right',
-  },
-  right: {
-    flex: 1,
-    color: '#fff',
-    margin: 0,
-    fontSize: 60,
-    fontWeight: 'bold',
-    textAlign: 'left',
+  image: {
+    width: 70,
+    height: 60,
   },
 });
 
@@ -28,22 +23,34 @@ export default function Controls(props) {
   return (
     <View style={styles.control}>
       {props.playerSide === 'right' ? (
-        <Text style={styles.left} onPress={() => props.movePlayer('center')}>
-          {'<'}
-        </Text>
+        <TouchableOpacity onPress={() => props.movePlayer('center')}>
+          <Image
+            style={styles.image}
+            source={require('../assets/watermelonleft.png')}
+          />
+        </TouchableOpacity>
       ) : (
-        <Text style={styles.left} onPress={() => props.movePlayer('left')}>
-          {'<'}
-        </Text>
+        <TouchableOpacity onPress={() => props.movePlayer('left')}>
+          <Image
+            style={styles.image}
+            source={require('../assets/watermelonleft.png')}
+          />
+        </TouchableOpacity>
       )}
       {props.playerSide === 'left' ? (
-        <Text style={styles.right} onPress={() => props.movePlayer('center')}>
-          {'>'}
-        </Text>
+        <TouchableOpacity onPress={() => props.movePlayer('center')}>
+          <Image
+            style={styles.image}
+            source={require('../assets/watermelonright.png')}
+          />
+        </TouchableOpacity>
       ) : (
-        <Text style={styles.right} onPress={() => props.movePlayer('right')}>
-          {'>'}
-        </Text>
+        <TouchableOpacity onPress={() => props.movePlayer('right')}>
+          <Image
+            style={styles.image}
+            source={require('../assets/watermelonright.png')}
+          />
+        </TouchableOpacity>
       )}
     </View>
   );
