@@ -34,7 +34,7 @@ export default function GameOver(props) {
         <View style={styles.textBackgroundView}>
           <Text style={styles.text}>Oh no!</Text>
           <Text style={styles.text}>
-            {props.badFruit} are poisonous for cats!
+            {props.badFruit} are poisonous to cats!
           </Text>
           <Button
             color="#5A4224"

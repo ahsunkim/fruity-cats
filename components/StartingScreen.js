@@ -1,5 +1,12 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, Image, View, Button } from 'react-native';
+import {
+  ImageBackground,
+  StyleSheet,
+  Image,
+  View,
+  Button,
+  Text,
+} from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
@@ -20,27 +27,78 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   buttonView: { backgroundColor: '#F6F1E5', marginTop: 10 },
+  textBackgroundView: {
+    backgroundColor: '#F6F1E5',
+    color: '#5A4224',
+  },
+  text: {
+    fontSize: 18,
+    color: '#5A4224',
+  },
+  boldText: {
+    fontSize: 20,
+    color: '#5A4224',
+    fontWeight: 'bold',
+  },
 });
 
 export default function StartingScreen(props) {
-  return (
-    <View style={styles.container}>
-      <ImageBackground
-        source={require('../assets/gameMessage.png')}
-        style={styles.messageBoard}
-      >
-        <Image
-          source={require('../assets/fruityCats.png')}
-          style={styles.logo}
-        />
-        <View style={styles.buttonView}>
-          <Button
-            color="#5A4224"
-            onPress={props.startGame}
-            title="Click to Play"
+  if (props.instructionsMode) {
+    return (
+      <View style={styles.container}>
+        <ImageBackground
+          source={require('../assets/gameMessage.png')}
+          style={styles.messageBoard}
+        >
+          <View style={styles.textBackgroundView}>
+            <Text style={styles.boldText}>
+              Catch fruits that are safe for cats:
+            </Text>
+            <Text style={styles.text}>
+              Kiwis, Pineapples, Strawberries, Watermelons, Bananas
+            </Text>
+            <Text style={styles.boldText}>
+              Avoid fruits that are poisonous to cats.
+            </Text>
+            <Text style={styles.text}>
+              Lemons, Oranges, Peaches, Cherries, Apples
+            </Text>
+            <Button
+              color="#5A4224"
+              onPress={props.toggleInstructions}
+              title="Ok, got it!"
+            />
+          </View>
+        </ImageBackground>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.container}>
+        <ImageBackground
+          source={require('../assets/gameMessage.png')}
+          style={styles.messageBoard}
+        >
+          <Image
+            source={require('../assets/fruityCats.png')}
+            style={styles.logo}
           />
-        </View>
-      </ImageBackground>
-    </View>
-  );
+          <View style={styles.buttonView}>
+            <Button
+              color="#5A4224"
+              onPress={props.startGame}
+              title="Click to Play"
+            />
+          </View>
+          <View style={styles.buttonView}>
+            <Button
+              color="#5A4224"
+              onPress={props.toggleInstructions}
+              title="Instructions"
+            />
+          </View>
+        </ImageBackground>
+      </View>
+    );
+  }
 }

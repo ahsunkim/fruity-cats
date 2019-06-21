@@ -49,6 +49,7 @@ export default class Game extends Component {
 
       points: 0,
       startMode: true,
+      instructionsMode: false,
       gameOver: false,
     };
     this.movePlayer = this.movePlayer.bind(this);
@@ -56,6 +57,7 @@ export default class Game extends Component {
     this.animateSafeFruit = this.animateSafeFruit.bind(this);
     this.animateRandomFruit = this.animateRandomFruit.bind(this);
     this.startGame = this.startGame.bind(this);
+    this.toggleInstructions = this.toggleInstructions.bind(this);
   }
   async startGame() {
     await this.setState({
@@ -66,17 +68,21 @@ export default class Game extends Component {
     });
     this.animateRandomFruit();
   }
+  toggleInstructions() {
+    const instructionsMode = this.state.instructionsMode;
+    this.setState({ instructionsMode: !instructionsMode });
+  }
   animateRandomFruit() {
-    let badOrSafeRandomizer = Math.floor(Math.random() * 2);
-    let safeFruitArr = [
+    const badOrSafeRandomizer = Math.floor(Math.random() * 2);
+    const safeFruitArr = [
       'Kiwis',
       'Pineapples',
       'Strawberries',
       'Watermelons',
       'Bananas',
     ];
-    let badFruitArr = ['Lemons', 'Oranges', 'Peaches', 'Cherries', 'Apples'];
-    let fruitRandomizer = Math.floor(Math.random() * 5);
+    const badFruitArr = ['Lemons', 'Oranges', 'Peaches', 'Cherries', 'Apples'];
+    const fruitRandomizer = Math.floor(Math.random() * 5);
     if (badOrSafeRandomizer) {
       this.animateBadFruit(badFruitArr[fruitRandomizer]);
     } else {
@@ -206,7 +212,13 @@ export default class Game extends Component {
         style={styles.container}
       >
         <Counter points={this.state.points} />
-        {this.state.startMode && <StartingScreen startGame={this.startGame} />}
+        {this.state.startMode && (
+          <StartingScreen
+            startGame={this.startGame}
+            instructionsMode={this.state.instructionsMode}
+            toggleInstructions={this.toggleInstructions}
+          />
+        )}
         {this.state.gameOver && (
           <GameOver startGame={this.startGame} badFruit={this.state.badFruit} />
         )}
