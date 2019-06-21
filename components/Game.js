@@ -26,21 +26,22 @@ export default class Game extends Component {
   constructor() {
     super();
     this.state = {
-      // location of the cat player in terms of X-axis
+      // creating the cat player
       movePlayerVal: new Animated.Value(40),
-      // a more generic location of cat player
+      // location of cat player
       playerSide: 'left',
+      // saving whether player caught a safe fruit to display different player sprite
       playerCaught: false,
-
+      // starting speed for all fruits
       fruitSpeed: 4000,
 
-      // location of poisonous fruits
+      // creating the poisonous fruits
       moveBadFruitVal: new Animated.Value(-100),
       badFruitStartposX: 0,
       badFruitSide: 'left',
       badFruit: 'Lemons',
 
-      // location of safe fruits
+      // creating the safe fruits
       moveSafeFruitVal: new Animated.Value(-100),
       safeFruitStartposX: 0,
       safeFruitSide: 'left',
@@ -93,7 +94,7 @@ export default class Game extends Component {
         randomizer = 40;
         this.setState({ safeFruitSide: 'left' });
       } else if (randomizer === 1) {
-        randomizer = Dimensions.get('window').width / 2;
+        randomizer = Dimensions.get('window').width - 250;
         this.setState({ safeFruitSide: 'center' });
       } else if (randomizer === 0) {
         randomizer = Dimensions.get('window').width - 140;
@@ -142,8 +143,8 @@ export default class Game extends Component {
         randomizer = 40;
         this.setState({ badFruitSide: 'left' });
       } else if (randomizer === 1) {
-        randomizer = Dimensions.get('window').width / 2;
-        this.setState({ safeFruitSide: 'center' });
+        randomizer = Dimensions.get('window').width - 250;
+        this.setState({ badFruitSide: 'center' });
       } else if (randomizer === 0) {
         randomizer = Dimensions.get('window').width - 140;
         this.setState({ badFruitSide: 'right' });
@@ -177,25 +178,25 @@ export default class Game extends Component {
       });
     }
   }
-  movePlayer(direction) {
+  async movePlayer(direction) {
     if (direction === 'right') {
-      this.setState({ playerSide: 'right' });
+      await this.setState({ playerSide: 'right' });
       Animated.spring(this.state.movePlayerVal, {
         toValue: Dimensions.get('window').width - 140,
         tension: 100,
       }).start();
     } else if (direction === 'left') {
-      this.setState({ playerSide: 'left' });
+      await this.setState({ playerSide: 'left' });
       Animated.spring(this.state.movePlayerVal, {
         toValue: 40,
         tension: 100,
       }).start();
     } else if (direction === 'center') {
-      this.setState({ playerSide: 'center' });
+      await this.setState({ playerSide: 'center' });
       Animated.spring(this.state.movePlayerVal, {
-        toValue: Dimensions.get('window').width / 2,
+        toValue: Dimensions.get('window').width - 250,
         tension: 100,
-      });
+      }).start();
     }
   }
   render() {

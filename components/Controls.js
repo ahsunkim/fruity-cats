@@ -5,6 +5,7 @@ const styles = StyleSheet.create({
   control: {
     alignItems: 'center',
     flexDirection: 'row',
+    bottom: 100,
   },
   left: {
     flex: 1,

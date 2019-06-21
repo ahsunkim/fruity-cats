@@ -8,6 +8,7 @@ export default class Cat extends Component {
       zIndex: 1,
       bottom: 0,
       resizeMode: 'cover',
+      // Allows you to animate horizontally
       transform: [
         {
           translateX: this.props.movePlayerVal,
