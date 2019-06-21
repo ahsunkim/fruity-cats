@@ -34,7 +34,7 @@ export default class Game extends Component {
       // saving whether player caught a safe fruit to display different player sprite
       playerCaught: false,
       // starting speed for all fruits
-      fruitSpeed: 4000,
+      fruitSpeed: 2000,
 
       // creating the poisonous fruits
       moveBadFruitVal: new Animated.Value(-100),
@@ -49,6 +49,7 @@ export default class Game extends Component {
       safeFruit: 'Kiwis',
 
       points: 0,
+      gainedPoint: false,
       startMode: true,
       instructionsMode: false,
       gameOver: false,
@@ -121,17 +122,19 @@ export default class Game extends Component {
         this.setState({ safeFruitSide: 'right' });
       }
       this.setState({ safeFruitStartposX: randomizer });
-      let gainedPoint = false;
       let refreshIntervalId = setInterval(() => {
         if (
           this.state.moveSafeFruitVal._value > windowH - 200 &&
           this.state.moveSafeFruitVal._value < windowH - 100 &&
           this.state.playerSide === this.state.safeFruitSide &&
-          !gainedPoint
+          !this.state.gainedPoint
         ) {
-          gainedPoint = true;
           let points = this.state.points;
-          this.setState({ points: points + 1, playerCaught: true });
+          this.setState({
+            points: points + 1,
+            gainedPoint: true,
+            playerCaught: true,
+          });
         }
       }, 50);
       setInterval(() => {
@@ -146,7 +149,7 @@ export default class Game extends Component {
           clearInterval(refreshIntervalId);
         }
         if (this.state.gameOver === false) {
-          this.setState({ playerCaught: false });
+          this.setState({ playerCaught: false, gainedPoint: false });
           this.animateRandomFruit();
         }
       });
@@ -177,6 +180,14 @@ export default class Game extends Component {
           this.state.playerSide === this.state.badFruitSide
         ) {
           this.setState({ gameOver: true });
+        } else if (
+          this.state.moveBadFruitVal._value > windowH - 200 &&
+          this.state.moveBadFruitVal._value < windowH - 100 &&
+          this.state.playerSide !== this.state.badFruitSide &&
+          !this.state.gainedPoint
+        ) {
+          let points = this.state.points;
+          this.setState({ points: points + 1, gainedPoint: true });
         }
       }, 50);
       setInterval(() => {
@@ -186,13 +197,12 @@ export default class Game extends Component {
       Animated.timing(this.state.moveBadFruitVal, {
         toValue: Dimensions.get('window').height,
         duration: this.state.fruitSpeed,
-      }).start(event => {
+      }).start(async event => {
         if (event.finished || this.state.gameOver) {
           clearInterval(refreshIntervalId);
         }
         if (this.state.gameOver === false) {
-          let points = this.state.points;
-          this.setState({ points: points + 1 });
+          await this.setState({ gainedPoint: false });
           this.animateRandomFruit();
         }
       });
@@ -225,7 +235,10 @@ export default class Game extends Component {
         source={require('../assets/jungle.jpg')}
         style={styles.container}
       >
-        <Counter points={this.state.points} />
+        <Counter
+          points={this.state.points}
+          gainedPoint={this.state.gainedPoint}
+        />
         {this.state.startMode && (
           <StartingScreen
             startGame={this.startGame}
