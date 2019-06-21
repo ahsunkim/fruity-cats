@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
-  points: {
+  pointsContainer: {
     top: 40,
     width: 80,
     height: 80,
@@ -11,16 +11,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
+  points: { fontWeight: 'bold', fontSize: 40 },
 });
 
-export default class Cat extends Component {
+export default class Counter extends Component {
   render() {
     return (
       <View style={{ flex: 1, alignItems: 'center' }}>
-        <View style={styles.points}>
-          <Text style={{ fontWeight: 'bold', fontSize: 40 }}>
-            {this.props.points}
-          </Text>
+        <View style={styles.pointsContainer}>
+          <Text style={styles.points}>{this.props.points}</Text>
         </View>
       </View>
     );

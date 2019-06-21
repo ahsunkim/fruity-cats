@@ -72,7 +72,7 @@ export default class Game extends Component {
       'Pineapples',
       'Strawberries',
       'Watermelons',
-      'Banana',
+      'Bananas',
     ];
     let badFruitArr = ['Lemons', 'Oranges', 'Peaches', 'Cherries', 'Apples'];
     let fruitRandomizer = Math.floor(Math.random() * 5);
@@ -92,6 +92,9 @@ export default class Game extends Component {
       if (randomizer === 2) {
         randomizer = 40;
         this.setState({ safeFruitSide: 'left' });
+      } else if (randomizer === 1) {
+        randomizer = Dimensions.get('window').width / 2;
+        this.setState({ safeFruitSide: 'center' });
       } else if (randomizer === 0) {
         randomizer = Dimensions.get('window').width - 140;
         this.setState({ safeFruitSide: 'right' });
@@ -138,6 +141,9 @@ export default class Game extends Component {
       if (randomizer === 2) {
         randomizer = 40;
         this.setState({ badFruitSide: 'left' });
+      } else if (randomizer === 1) {
+        randomizer = Dimensions.get('window').width / 2;
+        this.setState({ safeFruitSide: 'center' });
       } else if (randomizer === 0) {
         randomizer = Dimensions.get('window').width - 140;
         this.setState({ badFruitSide: 'right' });
@@ -184,6 +190,12 @@ export default class Game extends Component {
         toValue: 40,
         tension: 100,
       }).start();
+    } else if (direction === 'center') {
+      this.setState({ playerSide: 'center' });
+      Animated.spring(this.state.movePlayerVal, {
+        toValue: Dimensions.get('window').width / 2,
+        tension: 100,
+      });
     }
   }
   render() {
@@ -213,7 +225,10 @@ export default class Game extends Component {
           moveBadFruitVal={this.state.moveBadFruitVal}
           badFruit={this.state.badFruit}
         />
-        <Controls movePlayer={this.movePlayer} />
+        <Controls
+          movePlayer={this.movePlayer}
+          playerSide={this.state.playerSide}
+        />
       </ImageBackground>
     );
   }

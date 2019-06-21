@@ -27,15 +27,36 @@ export default class Controls extends Component {
   render() {
     return (
       <View style={styles.control}>
-        <Text style={styles.left} onPress={() => this.props.movePlayer('left')}>
-          {'<'}
-        </Text>
-        <Text
-          style={styles.right}
-          onPress={() => this.props.movePlayer('right')}
-        >
-          {'>'}
-        </Text>
+        {this.props.playerSide === 'right' ? (
+          <Text
+            style={styles.left}
+            onPress={() => this.props.movePlayer('center')}
+          >
+            {'<'}
+          </Text>
+        ) : (
+          <Text
+            style={styles.left}
+            onPress={() => this.props.movePlayer('left')}
+          >
+            {'<'}
+          </Text>
+        )}
+        {this.props.playerSide === 'left' ? (
+          <Text
+            style={styles.right}
+            onPress={() => this.props.movePlayer('center')}
+          >
+            {'>'}
+          </Text>
+        ) : (
+          <Text
+            style={styles.right}
+            onPress={() => this.props.movePlayer('right')}
+          >
+            {'>'}
+          </Text>
+        )}
       </View>
     );
   }

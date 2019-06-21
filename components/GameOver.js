@@ -10,6 +10,18 @@ const styles = StyleSheet.create({
     fontSize: 20,
     color: '#5A4224',
   },
+  messageBoard: {
+    width: 345,
+    height: 229,
+    bottom: 250,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  textBackgroundView: {
+    backgroundColor: '#F6F1E5',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
 });
 
 export default class GameOver extends Component {
@@ -18,24 +30,11 @@ export default class GameOver extends Component {
       <View style={styles.container}>
         <ImageBackground
           source={require('./gameMessage.png')}
-          style={{
-            width: 345,
-            height: 229,
-            bottom: 250,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}
+          style={styles.messageBoard}
         >
-          <View
-            style={{
-              backgroundColor: '#F6F1E5',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}
-          >
+          <View style={styles.textBackgroundView}>
             <Text style={styles.text}>Oh no!</Text>
             <Text style={styles.text}>
-              {' '}
               {this.props.badFruit} are poisonous for cats!
             </Text>
             <Button

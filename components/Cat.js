@@ -3,23 +3,28 @@ import { Animated } from 'react-native';
 
 export default class Cat extends Component {
   render() {
+    let catStyle = {
+      position: 'absolute',
+      zIndex: 1,
+      bottom: 0,
+      resizeMode: 'cover',
+      transform: [
+        {
+          translateX: this.props.movePlayerVal,
+        },
+      ],
+    };
     if (this.props.gameOver) {
       return (
         <Animated.Image
           source={require('./hurtCat.png')}
-          style={{
-            position: 'absolute',
-            zIndex: 1,
-            height: 110,
-            width: 150,
-            bottom: 0,
-            resizeMode: 'cover',
-            transform: [
-              {
-                translateX: this.props.movePlayerVal,
-              },
-            ],
-          }}
+          style={[
+            catStyle,
+            {
+              height: 110,
+              width: 150,
+            },
+          ]}
         />
       );
     }
@@ -27,57 +32,42 @@ export default class Cat extends Component {
       return (
         <Animated.Image
           source={require('./catCaught.png')}
-          style={{
-            position: 'absolute',
-            zIndex: 1,
-            height: 140,
-            width: 80,
-            bottom: 0,
-            resizeMode: 'cover',
-            transform: [
-              {
-                translateX: this.props.movePlayerVal,
-              },
-            ],
-          }}
+          style={[
+            catStyle,
+            {
+              height: 140,
+              width: 80,
+            },
+          ]}
         />
       );
-    } else if (this.props.playerSide === 'left') {
+    } else if (
+      this.props.playerSide === 'left' ||
+      this.props.playerSide === 'center'
+    ) {
       return (
         <Animated.Image
           source={require('./catLeft.png')}
-          style={{
-            position: 'absolute',
-            zIndex: 1,
-            height: 110,
-            width: 80,
-            bottom: 0,
-            resizeMode: 'stretch',
-            transform: [
-              {
-                translateX: this.props.movePlayerVal,
-              },
-            ],
-          }}
+          style={[
+            catStyle,
+            {
+              height: 110,
+              width: 80,
+            },
+          ]}
         />
       );
     } else if (this.props.playerSide === 'right') {
       return (
         <Animated.Image
           source={require('./catRight.png')}
-          style={{
-            position: 'absolute',
-            zIndex: 1,
-            height: 110,
-            width: 80,
-            bottom: 0,
-            resizeMode: 'cover',
-            transform: [
-              {
-                translateX: this.props.movePlayerVal,
-              },
-            ],
-          }}
+          style={[
+            catStyle,
+            {
+              height: 110,
+              width: 80,
+            },
+          ]}
         />
       );
     }
