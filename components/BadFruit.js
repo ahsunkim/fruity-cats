@@ -11,35 +11,35 @@ export default class BadFruit extends Component {
     if (this.props.badFruit === 'Lemons') {
       return (
         <Animated.Image
-          source={require('./assets/lemon.png')}
+          source={require('../assets/lemon.png')}
           style={badFruitStyle}
         />
       );
     } else if (this.props.badFruit === 'Oranges') {
       return (
         <Animated.Image
-          source={require('./assets/orange.png')}
+          source={require('../assets/orange.png')}
           style={badFruitStyle}
         />
       );
     } else if (this.props.badFruit === 'Peaches') {
       return (
         <Animated.Image
-          source={require('./assets/peach.png')}
+          source={require('../assets/peach.png')}
           style={badFruitStyle}
         />
       );
     } else if (this.props.badFruit === 'Cherries') {
       return (
         <Animated.Image
-          source={require('./assets/cherry.png')}
+          source={require('../assets/cherry.png')}
           style={badFruitStyle}
         />
       );
     } else if (this.props.badFruit === 'Apples') {
       return (
         <Animated.Image
-          source={require('./assets/apple.png')}
+          source={require('../assets/apple.png')}
           style={badFruitStyle}
         />
       );

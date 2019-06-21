@@ -29,7 +29,7 @@ export default class GameOver extends Component {
     return (
       <View style={styles.container}>
         <ImageBackground
-          source={require('./assets/gameMessage.png')}
+          source={require('../assets/gameMessage.png')}
           style={styles.messageBoard}
         >
           <View style={styles.textBackgroundView}>
