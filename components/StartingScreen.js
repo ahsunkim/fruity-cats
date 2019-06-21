@@ -1,13 +1,10 @@
 import React, { Component } from 'react';
-import { ImageBackground, StyleSheet, Text, View, Button } from 'react-native';
+import { ImageBackground, StyleSheet, Image, View, Button } from 'react-native';
 
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
     alignItems: 'center',
-  },
-  text: {
-    fontSize: 20,
   },
 });
 
@@ -18,14 +15,29 @@ export default class StartingScreen extends Component {
         <ImageBackground
           source={require('./gameMessage.png')}
           style={{
-            width: 250,
-            height: 166,
+            width: 345,
+            height: 229,
             bottom: 250,
             justifyContent: 'center',
             alignItems: 'center',
           }}
         >
-          <Button onPress={this.props.startGame} title="Click to Play" />
+          <Image
+            source={require('./fruityCats.png')}
+            style={{
+              width: 280,
+              height: 110,
+              resizeMode: 'cover',
+              marginBottom: 10,
+            }}
+          />
+          <View style={{ backgroundColor: '#F6F1E5', marginTop: 10 }}>
+            <Button
+              color="#5A4224"
+              onPress={this.props.startGame}
+              title="Click to Play"
+            />
+          </View>
         </ImageBackground>
       </View>
     );

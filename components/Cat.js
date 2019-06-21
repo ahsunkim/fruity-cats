@@ -22,6 +22,26 @@ export default class Cat extends Component {
           }}
         />
       );
+    }
+    if (this.props.playerCaught) {
+      return (
+        <Animated.Image
+          source={require('./catCaught.png')}
+          style={{
+            position: 'absolute',
+            zIndex: 1,
+            height: 140,
+            width: 80,
+            bottom: 0,
+            resizeMode: 'cover',
+            transform: [
+              {
+                translateX: this.props.movePlayerVal,
+              },
+            ],
+          }}
+        />
+      );
     } else if (this.props.playerSide === 'left') {
       return (
         <Animated.Image

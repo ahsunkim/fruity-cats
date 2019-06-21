@@ -8,6 +8,7 @@ const styles = StyleSheet.create({
   },
   text: {
     fontSize: 20,
+    color: '#5A4224',
   },
 });
 
@@ -18,16 +19,31 @@ export default class GameOver extends Component {
         <ImageBackground
           source={require('./gameMessage.png')}
           style={{
-            width: 250,
-            height: 166,
+            width: 345,
+            height: 229,
             bottom: 250,
             justifyContent: 'center',
             alignItems: 'center',
           }}
         >
-          <Text style={styles.text}>Oh no!</Text>
-          <Text style={styles.text}> This fruit is poisonous for cats!</Text>
-          <Button onPress={this.props.startGame} title="Click to Play Again" />
+          <View
+            style={{
+              backgroundColor: '#F6F1E5',
+              alignItems: 'center',
+              justifyContent: 'center',
+            }}
+          >
+            <Text style={styles.text}>Oh no!</Text>
+            <Text style={styles.text}>
+              {' '}
+              {this.props.badFruit} are poisonous for cats!
+            </Text>
+            <Button
+              color="#5A4224"
+              onPress={this.props.startGame}
+              title="Click to Play Again"
+            />
+          </View>
         </ImageBackground>
       </View>
     );

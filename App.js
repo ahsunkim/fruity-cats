@@ -31,20 +31,21 @@ export default class App extends Component {
       movePlayerVal: new Animated.Value(40),
       // a more generic location of cat player
       playerSide: 'left',
+      playerCaught: false,
+
+      fruitSpeed: 4000,
 
       // location of poisonous fruits
       moveBadFruitVal: new Animated.Value(-100),
       badFruitStartposX: 0,
       badFruitSide: 'left',
-      badFruitSpeed: 4000,
-      badFruit: 'lemon',
+      badFruit: 'Lemons',
 
       // location of safe fruits
       moveSafeFruitVal: new Animated.Value(-100),
       safeFruitStartposX: 0,
       safeFruitSide: 'left',
-      safeFruitSpeed: 4000,
-      safeFruit: 'kiwi',
+      safeFruit: 'Kiwis',
 
       points: 0,
       startMode: true,
@@ -57,19 +58,24 @@ export default class App extends Component {
     this.startGame = this.startGame.bind(this);
   }
   startGame() {
-    this.setState({ startMode: false, gameOver: false, points: 0 });
+    this.setState({
+      startMode: false,
+      gameOver: false,
+      points: 0,
+      fruitSpeed: 4000,
+    });
     this.animateRandomFruit();
   }
   animateRandomFruit() {
     let badOrSafeRandomizer = Math.floor(Math.random() * 2);
     let safeFruitArr = [
-      'kiwi',
-      'pineapple',
-      'strawberry',
-      'watermelon',
-      'banana',
+      'Kiwis',
+      'Pineapples',
+      'Strawberries',
+      'Watermelons',
+      'Banana',
     ];
-    let badFruitArr = ['lemon', 'orange', 'peach', 'cherry', 'apple'];
+    let badFruitArr = ['Lemons', 'Oranges', 'Peaches', 'Cherries', 'Apples'];
     let fruitRandomizer = Math.floor(Math.random() * 5);
     if (badOrSafeRandomizer) {
       this.animateBadFruit(badFruitArr[fruitRandomizer]);
@@ -102,19 +108,22 @@ export default class App extends Component {
         ) {
           gainedPoint = true;
           let points = this.state.points;
-          this.setState({ points: points + 1 });
+          this.setState({ points: points + 1, playerCaught: true });
         }
       }, 50);
       setInterval(() => {
-        let safeFruitSpeed = this.state.safeFruitSpeed;
-        this.setState({ safeFruitSpeed: safeFruitSpeed - 50 });
+        let fruitSpeed = this.state.fruitSpeed;
+        this.setState({ fruitSpeed: fruitSpeed - 50 });
       }, 20000);
       Animated.timing(this.state.moveSafeFruitVal, {
         toValue: Dimensions.get('window').height,
-        duration: this.state.safeFruitSpeed,
+        duration: this.state.fruitSpeed,
       }).start(event => {
-        if (event.finished && this.state.gameOver === false) {
+        if (event.finished || this.state.gameOver) {
           clearInterval(refreshIntervalId);
+        }
+        if (this.state.gameOver === false) {
+          this.setState({ playerCaught: false });
           this.animateRandomFruit();
         }
       });
@@ -145,15 +154,17 @@ export default class App extends Component {
         }
       }, 50);
       setInterval(() => {
-        let badFruitSpeed = this.state.badFruitSpeed;
-        this.setState({ badFruitSpeed: badFruitSpeed - 50 });
+        let fruitSpeed = this.state.fruitSpeed;
+        this.setState({ fruitSpeed: fruitSpeed - 50 });
       }, 20000);
       Animated.timing(this.state.moveBadFruitVal, {
         toValue: Dimensions.get('window').height,
-        duration: this.state.badFruitSpeed,
+        duration: this.state.fruitSpeed,
       }).start(event => {
-        if (event.finished && this.state.gameOver === false) {
+        if (event.finished || this.state.gameOver) {
           clearInterval(refreshIntervalId);
+        }
+        if (this.state.gameOver === false) {
           let points = this.state.points;
           this.setState({ points: points + 1 });
           this.animateRandomFruit();
@@ -184,11 +195,14 @@ export default class App extends Component {
       >
         <Counter points={this.state.points} />
         {this.state.startMode && <StartingScreen startGame={this.startGame} />}
-        {this.state.gameOver && <GameOver startGame={this.startGame} />}
+        {this.state.gameOver && (
+          <GameOver startGame={this.startGame} badFruit={this.state.badFruit} />
+        )}
         <Cat
           movePlayerVal={this.state.movePlayerVal}
           playerSide={this.state.playerSide}
           gameOver={this.state.gameOver}
+          playerCaught={this.state.playerCaught}
         />
         <SafeFruit
           safeFruitStartposX={this.state.safeFruitStartposX}

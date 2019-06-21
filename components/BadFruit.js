@@ -3,7 +3,7 @@ import { Animated } from 'react-native';
 
 export default class BadFruit extends Component {
   render() {
-    if (this.props.badFruit === 'lemon') {
+    if (this.props.badFruit === 'Lemons') {
       return (
         <Animated.Image
           source={require('./lemon.png')}
@@ -14,7 +14,7 @@ export default class BadFruit extends Component {
           }}
         />
       );
-    } else if (this.props.badFruit === 'orange') {
+    } else if (this.props.badFruit === 'Oranges') {
       return (
         <Animated.Image
           source={require('./orange.png')}
@@ -25,7 +25,7 @@ export default class BadFruit extends Component {
           }}
         />
       );
-    } else if (this.props.badFruit === 'peach') {
+    } else if (this.props.badFruit === 'Peaches') {
       return (
         <Animated.Image
           source={require('./peach.png')}
@@ -36,7 +36,7 @@ export default class BadFruit extends Component {
           }}
         />
       );
-    } else if (this.props.badFruit === 'cherry') {
+    } else if (this.props.badFruit === 'Cherries') {
       return (
         <Animated.Image
           source={require('./cherry.png')}
@@ -47,7 +47,7 @@ export default class BadFruit extends Component {
           }}
         />
       );
-    } else if (this.props.badFruit === 'apple') {
+    } else if (this.props.badFruit === 'Apples') {
       return (
         <Animated.Image
           source={require('./apple.png')}

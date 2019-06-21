@@ -3,7 +3,7 @@ import { Animated, Text } from 'react-native';
 
 export default class SafeFruit extends Component {
   render() {
-    if (this.props.safeFruit === 'kiwi') {
+    if (this.props.safeFruit === 'Kiwis') {
       return (
         <Animated.Image
           source={require('./kiwi.png')}
@@ -14,7 +14,7 @@ export default class SafeFruit extends Component {
           }}
         />
       );
-    } else if (this.props.safeFruit === 'pineapple') {
+    } else if (this.props.safeFruit === 'Pineapples') {
       return (
         <Animated.Image
           source={require('./pineapple.png')}
@@ -25,7 +25,7 @@ export default class SafeFruit extends Component {
           }}
         />
       );
-    } else if (this.props.safeFruit === 'strawberry') {
+    } else if (this.props.safeFruit === 'Strawberries') {
       return (
         <Animated.Image
           source={require('./strawberry.png')}
@@ -36,7 +36,7 @@ export default class SafeFruit extends Component {
           }}
         />
       );
-    } else if (this.props.safeFruit === 'watermelon') {
+    } else if (this.props.safeFruit === 'Watermelons') {
       return (
         <Animated.Image
           source={require('./watermelon.png')}
@@ -47,7 +47,7 @@ export default class SafeFruit extends Component {
           }}
         />
       );
-    } else if (this.props.safeFruit === 'banana') {
+    } else if (this.props.safeFruit === 'Bananas') {
       return (
         <Animated.Image
           source={require('./banana.png')}
