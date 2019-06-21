@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { ImageBackground, StyleSheet, Image, View, Button } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -22,27 +22,25 @@ const styles = StyleSheet.create({
   buttonView: { backgroundColor: '#F6F1E5', marginTop: 10 },
 });
 
-export default class StartingScreen extends Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <ImageBackground
-          source={require('../assets/gameMessage.png')}
-          style={styles.messageBoard}
-        >
-          <Image
-            source={require('../assets/fruityCats.png')}
-            style={styles.logo}
+export default function StartingScreen(props) {
+  return (
+    <View style={styles.container}>
+      <ImageBackground
+        source={require('../assets/gameMessage.png')}
+        style={styles.messageBoard}
+      >
+        <Image
+          source={require('../assets/fruityCats.png')}
+          style={styles.logo}
+        />
+        <View style={styles.buttonView}>
+          <Button
+            color="#5A4224"
+            onPress={props.startGame}
+            title="Click to Play"
           />
-          <View style={styles.buttonView}>
-            <Button
-              color="#5A4224"
-              onPress={this.props.startGame}
-              title="Click to Play"
-            />
-          </View>
-        </ImageBackground>
-      </View>
-    );
-  }
+        </View>
+      </ImageBackground>
+    </View>
+  );
 }

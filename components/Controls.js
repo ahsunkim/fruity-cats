@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { View, StyleSheet, Text } from 'react-native';
 
 const styles = StyleSheet.create({
@@ -24,41 +24,27 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Controls extends Component {
-  render() {
-    return (
-      <View style={styles.control}>
-        {this.props.playerSide === 'right' ? (
-          <Text
-            style={styles.left}
-            onPress={() => this.props.movePlayer('center')}
-          >
-            {'<'}
-          </Text>
-        ) : (
-          <Text
-            style={styles.left}
-            onPress={() => this.props.movePlayer('left')}
-          >
-            {'<'}
-          </Text>
-        )}
-        {this.props.playerSide === 'left' ? (
-          <Text
-            style={styles.right}
-            onPress={() => this.props.movePlayer('center')}
-          >
-            {'>'}
-          </Text>
-        ) : (
-          <Text
-            style={styles.right}
-            onPress={() => this.props.movePlayer('right')}
-          >
-            {'>'}
-          </Text>
-        )}
-      </View>
-    );
-  }
+export default function Controls(props) {
+  return (
+    <View style={styles.control}>
+      {props.playerSide === 'right' ? (
+        <Text style={styles.left} onPress={() => props.movePlayer('center')}>
+          {'<'}
+        </Text>
+      ) : (
+        <Text style={styles.left} onPress={() => props.movePlayer('left')}>
+          {'<'}
+        </Text>
+      )}
+      {props.playerSide === 'left' ? (
+        <Text style={styles.right} onPress={() => props.movePlayer('center')}>
+          {'>'}
+        </Text>
+      ) : (
+        <Text style={styles.right} onPress={() => props.movePlayer('right')}>
+          {'>'}
+        </Text>
+      )}
+    </View>
+  );
 }

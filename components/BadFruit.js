@@ -1,48 +1,48 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Animated } from 'react-native';
 
-export default class BadFruit extends Component {
-  render() {
-    let badFruitStyle = {
-      position: 'absolute',
-      left: this.props.badFruitStartposX,
-      transform: [{ translateY: this.props.moveBadFruitVal }],
-    };
-    if (this.props.badFruit === 'Lemons') {
-      return (
-        <Animated.Image
-          source={require('../assets/lemon.png')}
-          style={badFruitStyle}
-        />
-      );
-    } else if (this.props.badFruit === 'Oranges') {
-      return (
-        <Animated.Image
-          source={require('../assets/orange.png')}
-          style={badFruitStyle}
-        />
-      );
-    } else if (this.props.badFruit === 'Peaches') {
-      return (
-        <Animated.Image
-          source={require('../assets/peach.png')}
-          style={badFruitStyle}
-        />
-      );
-    } else if (this.props.badFruit === 'Cherries') {
-      return (
-        <Animated.Image
-          source={require('../assets/cherry.png')}
-          style={badFruitStyle}
-        />
-      );
-    } else if (this.props.badFruit === 'Apples') {
-      return (
-        <Animated.Image
-          source={require('../assets/apple.png')}
-          style={badFruitStyle}
-        />
-      );
-    }
+export default function BadFruit(props) {
+  let badFruitStyle = {
+    position: 'absolute',
+    // Allows you to set the fruit on certain places of the screen (left, right, center) based on x-coordinates
+    left: props.badFruitStartposX,
+    // Allows you to animate vertically
+    transform: [{ translateY: props.moveBadFruitVal }],
+  };
+  if (props.badFruit === 'Lemons') {
+    return (
+      <Animated.Image
+        source={require('../assets/lemon.png')}
+        style={badFruitStyle}
+      />
+    );
+  } else if (props.badFruit === 'Oranges') {
+    return (
+      <Animated.Image
+        source={require('../assets/orange.png')}
+        style={badFruitStyle}
+      />
+    );
+  } else if (props.badFruit === 'Peaches') {
+    return (
+      <Animated.Image
+        source={require('../assets/peach.png')}
+        style={badFruitStyle}
+      />
+    );
+  } else if (props.badFruit === 'Cherries') {
+    return (
+      <Animated.Image
+        source={require('../assets/cherry.png')}
+        style={badFruitStyle}
+      />
+    );
+  } else if (props.badFruit === 'Apples') {
+    return (
+      <Animated.Image
+        source={require('../assets/apple.png')}
+        style={badFruitStyle}
+      />
+    );
   }
 }

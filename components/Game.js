@@ -94,10 +94,10 @@ export default class Game extends Component {
         randomizer = 40;
         this.setState({ safeFruitSide: 'left' });
       } else if (randomizer === 1) {
-        randomizer = Dimensions.get('window').width - 250;
+        randomizer = Dimensions.get('window').width / 2 - 40;
         this.setState({ safeFruitSide: 'center' });
       } else if (randomizer === 0) {
-        randomizer = Dimensions.get('window').width - 140;
+        randomizer = Dimensions.get('window').width - 120;
         this.setState({ safeFruitSide: 'right' });
       }
       this.setState({ safeFruitStartposX: randomizer });
@@ -143,10 +143,10 @@ export default class Game extends Component {
         randomizer = 40;
         this.setState({ badFruitSide: 'left' });
       } else if (randomizer === 1) {
-        randomizer = Dimensions.get('window').width - 250;
+        randomizer = Dimensions.get('window').width / 2 - 40;
         this.setState({ badFruitSide: 'center' });
       } else if (randomizer === 0) {
-        randomizer = Dimensions.get('window').width - 140;
+        randomizer = Dimensions.get('window').width - 120;
         this.setState({ badFruitSide: 'right' });
       }
       this.setState({ badFruitStartposX: randomizer });
@@ -182,7 +182,7 @@ export default class Game extends Component {
     if (direction === 'right') {
       await this.setState({ playerSide: 'right' });
       Animated.spring(this.state.movePlayerVal, {
-        toValue: Dimensions.get('window').width - 140,
+        toValue: Dimensions.get('window').width - 120,
         tension: 100,
       }).start();
     } else if (direction === 'left') {
@@ -194,7 +194,7 @@ export default class Game extends Component {
     } else if (direction === 'center') {
       await this.setState({ playerSide: 'center' });
       Animated.spring(this.state.movePlayerVal, {
-        toValue: Dimensions.get('window').width - 250,
+        toValue: Dimensions.get('window').width / 2 - 40,
         tension: 100,
       }).start();
     }
