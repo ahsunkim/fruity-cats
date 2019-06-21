@@ -6,6 +6,7 @@ import GameOver from './GameOver';
 import StartingScreen from './StartingScreen';
 import BadFruit from './BadFruit';
 import SafeFruit from './SafeFruit';
+import { Audio } from 'expo-av';
 
 import {
   StyleSheet,
@@ -59,12 +60,25 @@ export default class Game extends Component {
     this.startGame = this.startGame.bind(this);
     this.toggleInstructions = this.toggleInstructions.bind(this);
   }
+  componentDidMount() {
+    this.playSong();
+  }
+  async playSong() {
+    const soundObject = new Audio.Sound();
+    try {
+      await soundObject.loadAsync(require('../assets/catMusic.mp3'));
+      soundObject.setIsLoopingAsync(true);
+      soundObject.playAsync();
+    } catch (error) {
+      console.log(error);
+    }
+  }
   async startGame() {
     await this.setState({
       startMode: false,
       gameOver: false,
       points: 0,
-      fruitSpeed: 4000,
+      fruitSpeed: 2000,
     });
     this.animateRandomFruit();
   }
