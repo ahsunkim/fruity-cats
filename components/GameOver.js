@@ -36,6 +36,8 @@ export default function GameOver(props) {
           <Text style={styles.text}>
             {props.badFruit} are poisonous to cats!
           </Text>
+          <Text>You got {props.points} points</Text>
+          <Text>Your highest score is {props.highScore}</Text>
           <Button
             color="#5A4224"
             onPress={props.startGame}

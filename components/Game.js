@@ -53,6 +53,7 @@ export default class Game extends Component {
       startMode: true,
       instructionsMode: false,
       gameOver: false,
+      highScore: 0,
     };
     this.movePlayer = this.movePlayer.bind(this);
     this.animateBadFruit = this.animateBadFruit.bind(this);
@@ -204,6 +205,8 @@ export default class Game extends Component {
         if (this.state.gameOver === false) {
           await this.setState({ gainedPoint: false });
           this.animateRandomFruit();
+        } else {
+          this.updateHighScore();
         }
       });
     }
@@ -229,6 +232,11 @@ export default class Game extends Component {
       }).start();
     }
   }
+  updateHighScore() {
+    if (this.state.highScore < this.state.points) {
+      this.setState({ highScore: this.state.points });
+    }
+  }
   render() {
     return (
       <ImageBackground
@@ -247,7 +255,12 @@ export default class Game extends Component {
           />
         )}
         {this.state.gameOver && (
-          <GameOver startGame={this.startGame} badFruit={this.state.badFruit} />
+          <GameOver
+            startGame={this.startGame}
+            badFruit={this.state.badFruit}
+            highScore={this.state.highScore}
+            points={this.state.points}
+          />
         )}
         <Cat
           movePlayerVal={this.state.movePlayerVal}

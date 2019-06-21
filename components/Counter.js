@@ -17,8 +17,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     top: 40,
-    width: 80,
-    height: 80,
+    width: 100,
+    height: 100,
   },
   points: { fontWeight: 'bold', fontSize: 40 },
 });
