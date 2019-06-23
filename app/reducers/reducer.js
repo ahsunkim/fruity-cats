@@ -7,11 +7,13 @@ const UPDATE_HIGH_SCORE = 'UPDATE_HIGH_SCORE';
 const START_GAME = 'START_GAME';
 const END_GAME = 'END_GAME';
 const TOGGLE_INSTRUCTIONS = 'TOGGLE_INSTRUCTIONS';
+const TOGGLE_PLAYERS_MODE = 'TOGGLE_PLAYERS_MODE';
 const PLAY_PAUSE_SONG = 'PLAY_PAUSE_SONG';
 
 const SET_SAFE_FRUIT = 'SET_SAFE_FRUIT';
 const SET_BAD_FRUIT = 'SET_BAD_FRUIT';
 const SET_PLAYER_SIDE = 'SET_PLAYER_SIDE';
+const CHANGE_PLAYER = 'CHANGE_PLAYER';
 const INCREASE_FRUIT_SPEED = 'INCREASE_FRUIT_SPEED';
 
 // Action creators
@@ -45,6 +47,10 @@ export const toggleInstructions = () => ({
   type: TOGGLE_INSTRUCTIONS,
 });
 
+export const togglePlayerMode = () => ({
+  type: TOGGLE_PLAYERS_MODE,
+});
+
 export const playPauseSong = () => ({
   type: PLAY_PAUSE_SONG,
 });
@@ -69,6 +75,11 @@ export const setPlayerSide = direction => ({
   direction,
 });
 
+export const changePlayer = cat => ({
+  type: CHANGE_PLAYER,
+  cat,
+});
+
 export const increaseFruitSpeed = () => ({
   type: INCREASE_FRUIT_SPEED,
 });
@@ -82,6 +93,7 @@ const initialState = {
   startMode: true,
   gameOver: false,
   instructionsMode: false,
+  playerMode: false,
   playSongStatus: false,
 
   fruitSpeed: 2000,
@@ -96,6 +108,7 @@ const initialState = {
 
   playerSide: 'left',
   playerCaught: false,
+  catPlayer: 'Berry',
 
   // moveSafeFruitVal
   // moveBadFruitVal
@@ -146,6 +159,11 @@ export default (state = initialState, action) => {
         ...state,
         instructionsMode: !state.instructionsMode,
       };
+    case TOGGLE_PLAYERS_MODE:
+      return {
+        ...state,
+        playerMode: !state.playerMode,
+      };
     case PLAY_PAUSE_SONG:
       return {
         ...state,
@@ -169,6 +187,12 @@ export default (state = initialState, action) => {
       return {
         ...state,
         playerSide: action.direction,
+      };
+    case CHANGE_PLAYER:
+      return {
+        ...state,
+        catPlayer: action.cat,
+        playerMode: !state.playerMode,
       };
     case INCREASE_FRUIT_SPEED:
       return {

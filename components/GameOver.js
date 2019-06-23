@@ -22,6 +22,7 @@ const styles = StyleSheet.create({
   messageBoard: {
     width: Dimensions.get('window').width - 50,
     resizeMode: 'contain',
+    height: 270,
     bottom: 250,
     justifyContent: 'center',
     alignItems: 'center',

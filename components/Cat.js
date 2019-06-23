@@ -15,59 +15,116 @@ function Cat(props) {
       },
     ],
   };
-  if (props.gameOver) {
-    return (
-      <Animated.Image
-        source={require('../assets/hurtCat.png')}
-        style={[
-          catStyle,
-          {
-            height: 110,
-            width: 150,
-          },
-        ]}
-      />
-    );
-  }
-  if (props.playerCaught) {
-    return (
-      <Animated.Image
-        source={require('../assets/catCaught.png')}
-        style={[
-          catStyle,
-          {
-            height: 140,
-            width: 80,
-          },
-        ]}
-      />
-    );
-  } else if (props.playerSide === 'left' || props.playerSide === 'center') {
-    return (
-      <Animated.Image
-        source={require('../assets/catLeft.png')}
-        style={[
-          catStyle,
-          {
-            height: 110,
-            width: 80,
-          },
-        ]}
-      />
-    );
-  } else if (props.playerSide === 'right') {
-    return (
-      <Animated.Image
-        source={require('../assets/catRight.png')}
-        style={[
-          catStyle,
-          {
-            height: 110,
-            width: 80,
-          },
-        ]}
-      />
-    );
+  if (props.catPlayer === 'Berry') {
+    if (props.gameOver) {
+      return (
+        <Animated.Image
+          source={require('../assets/berryHurt.png')}
+          style={[
+            catStyle,
+            {
+              height: 110,
+              width: 150,
+            },
+          ]}
+        />
+      );
+    }
+    if (props.playerCaught) {
+      return (
+        <Animated.Image
+          source={require('../assets/berryCaught.png')}
+          style={[
+            catStyle,
+            {
+              height: 140,
+              width: 80,
+            },
+          ]}
+        />
+      );
+    } else if (props.playerSide === 'left' || props.playerSide === 'center') {
+      return (
+        <Animated.Image
+          source={require('../assets/berryLeft.png')}
+          style={[
+            catStyle,
+            {
+              height: 120,
+              width: 80,
+            },
+          ]}
+        />
+      );
+    } else if (props.playerSide === 'right') {
+      return (
+        <Animated.Image
+          source={require('../assets/berryRight.png')}
+          style={[
+            catStyle,
+            {
+              height: 120,
+              width: 80,
+            },
+          ]}
+        />
+      );
+    }
+  } else {
+    if (props.gameOver) {
+      return (
+        <Animated.Image
+          source={require('../assets/citrusHurt.png')}
+          style={[
+            catStyle,
+            {
+              height: 110,
+              width: 150,
+            },
+          ]}
+        />
+      );
+    }
+    if (props.playerCaught) {
+      return (
+        <Animated.Image
+          source={require('../assets/citrusCaught.png')}
+          style={[
+            catStyle,
+            {
+              height: 140,
+              width: 80,
+            },
+          ]}
+        />
+      );
+    } else if (props.playerSide === 'left' || props.playerSide === 'center') {
+      return (
+        <Animated.Image
+          source={require('../assets/citrusLeft.png')}
+          style={[
+            catStyle,
+            {
+              height: 120,
+              width: 80,
+            },
+          ]}
+        />
+      );
+    } else if (props.playerSide === 'right') {
+      return (
+        <Animated.Image
+          source={require('../assets/citrusRight.png')}
+          style={[
+            catStyle,
+            {
+              height: 120,
+              width: 80,
+            },
+          ]}
+        />
+      );
+    }
   }
 }
 
@@ -75,6 +132,7 @@ const mapStateToProps = state => ({
   playerCaught: state.playerCaught,
   playerSide: state.playerSide,
   gameOver: state.gameOver,
+  catPlayer: state.catPlayer,
 });
 
 export default connect(mapStateToProps)(Cat);
