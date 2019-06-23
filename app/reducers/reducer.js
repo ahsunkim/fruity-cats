@@ -7,6 +7,7 @@ const UPDATE_HIGH_SCORE = 'UPDATE_HIGH_SCORE';
 const START_GAME = 'START_GAME';
 const END_GAME = 'END_GAME';
 const TOGGLE_INSTRUCTIONS = 'TOGGLE_INSTRUCTIONS';
+const PLAY_PAUSE_SONG = 'PLAY_PAUSE_SONG';
 
 const SET_SAFE_FRUIT = 'SET_SAFE_FRUIT';
 const SET_BAD_FRUIT = 'SET_BAD_FRUIT';
@@ -14,10 +15,7 @@ const SET_PLAYER_SIDE = 'SET_PLAYER_SIDE';
 const INCREASE_FRUIT_SPEED = 'INCREASE_FRUIT_SPEED';
 
 // Action creators
-export const toggleInstructions = () => ({
-  type: TOGGLE_INSTRUCTIONS,
-});
-
+// Points
 export const gainPointBadFruit = () => ({
   type: GAIN_POINT_BAD_FRUIT,
 });
@@ -34,6 +32,7 @@ export const updateHighScore = () => ({
   type: UPDATE_HIGH_SCORE,
 });
 
+// Game Settings/ Message Board-related
 export const startGame = () => ({
   type: START_GAME,
 });
@@ -42,6 +41,15 @@ export const endGame = () => ({
   type: END_GAME,
 });
 
+export const toggleInstructions = () => ({
+  type: TOGGLE_INSTRUCTIONS,
+});
+
+export const playPauseSong = () => ({
+  type: PLAY_PAUSE_SONG,
+});
+
+// Fruits and Player-related
 export const setSafeFruit = (safeFruit, direction, xPosition) => ({
   type: SET_SAFE_FRUIT,
   safeFruit,
@@ -70,9 +78,11 @@ const initialState = {
   points: 0,
   gainedPoints: false,
   highScore: 0,
-  instructionsMode: false,
+
   startMode: true,
   gameOver: false,
+  instructionsMode: false,
+  playSongStatus: false,
 
   fruitSpeed: 2000,
 
@@ -136,12 +146,10 @@ export default (state = initialState, action) => {
         ...state,
         instructionsMode: !state.instructionsMode,
       };
-    case SET_BAD_FRUIT:
+    case PLAY_PAUSE_SONG:
       return {
         ...state,
-        badFruit: action.badFruit,
-        badFruitSide: action.direction,
-        badFruitStartposX: action.xPosition,
+        playSongStatus: !state.playSongStatus,
       };
     case SET_SAFE_FRUIT:
       return {
@@ -149,6 +157,13 @@ export default (state = initialState, action) => {
         safeFruit: action.safeFruit,
         safeFruitSide: action.direction,
         safeFruitStartposX: action.xPosition,
+      };
+    case SET_BAD_FRUIT:
+      return {
+        ...state,
+        badFruit: action.badFruit,
+        badFruitSide: action.direction,
+        badFruitStartposX: action.xPosition,
       };
     case SET_PLAYER_SIDE:
       return {

@@ -4,6 +4,7 @@ import Controls from './Controls';
 import Counter from './Counter';
 import GameOver from './GameOver';
 import StartingScreen from './StartingScreen';
+import SoundIcon from './SoundIcon';
 import BadFruit from './BadFruit';
 import SafeFruit from './SafeFruit';
 import { Audio } from 'expo-av';
@@ -13,10 +14,11 @@ import {
   gainPointGoodFruit,
   toggledOffGainPoint,
   startGame,
+  endGame,
+  playPauseSong,
   setSafeFruit,
   setBadFruit,
   setPlayerSide,
-  endGame,
   increaseFruitSpeed,
 } from '../app/reducers/reducer';
 
@@ -48,21 +50,27 @@ class Game extends Component {
       // creating the safe fruits
       moveSafeFruitVal: new Animated.Value(-100),
     };
+    this.soundObject = new Audio.Sound();
     this.movePlayer = this.movePlayer.bind(this);
     this.animateBadFruit = this.animateBadFruit.bind(this);
     this.animateSafeFruit = this.animateSafeFruit.bind(this);
     this.animateRandomFruit = this.animateRandomFruit.bind(this);
     this.startGame = this.startGame.bind(this);
+    this.playOrPauseSong = this.playOrPauseSong.bind(this);
   }
-  componentDidMount() {
-    this.playSong();
+  async componentDidMount() {
+    await this.soundObject.loadAsync(require('../assets/catMusic.mp3'));
+    await this.soundObject.setIsLoopingAsync(true);
+    this.playOrPauseSong();
   }
-  async playSong() {
-    const soundObject = new Audio.Sound();
+  async playOrPauseSong() {
     try {
-      await soundObject.loadAsync(require('../assets/catMusic.mp3'));
-      soundObject.setIsLoopingAsync(true);
-      soundObject.playAsync();
+      if (this.props.playSongStatus) {
+        await this.soundObject.stopAsync();
+      } else {
+        this.soundObject.playAsync();
+      }
+      this.props.playPauseSong();
     } catch (error) {
       console.log(error);
     }
@@ -205,6 +213,7 @@ class Game extends Component {
         source={require('../assets/jungle.jpg')}
         style={styles.container}
       >
+        <SoundIcon playOrPauseSong={this.playOrPauseSong} />
         <Counter />
         {this.props.startMode && <StartingScreen startGame={this.startGame} />}
         {this.props.gameOver && <GameOver startGame={this.startGame} />}
@@ -227,6 +236,7 @@ const mapStateToProps = state => ({
   safeFruitSide: state.safeFruitSide,
   badFruitSide: state.badFruitSide,
   fruitSpeed: state.fruitSpeed,
+  playSongStatus: state.playSongStatus,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -242,6 +252,12 @@ const mapDispatchToProps = dispatch => ({
   startGame: () => {
     dispatch(startGame());
   },
+  endGame: () => {
+    dispatch(endGame());
+  },
+  playPauseSong: () => {
+    dispatch(playPauseSong());
+  },
   setSafeFruit: (safeFruit, direction, xPosition) => {
     dispatch(setSafeFruit(safeFruit, direction, xPosition));
   },
@@ -253,9 +269,6 @@ const mapDispatchToProps = dispatch => ({
   },
   increaseFruitSpeed: () => {
     dispatch(increaseFruitSpeed());
-  },
-  endGame: () => {
-    dispatch(endGame());
   },
 });
 
