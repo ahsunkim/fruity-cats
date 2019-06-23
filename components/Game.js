@@ -50,7 +50,7 @@ class Game extends Component {
       // creating the safe fruits
       moveSafeFruitVal: new Animated.Value(-100),
     };
-    this.soundObject = new Audio.Sound();
+    this.backgroundMusic = new Audio.Sound();
     this.movePlayer = this.movePlayer.bind(this);
     this.animateBadFruit = this.animateBadFruit.bind(this);
     this.animateSafeFruit = this.animateSafeFruit.bind(this);
@@ -59,16 +59,16 @@ class Game extends Component {
     this.playOrPauseSong = this.playOrPauseSong.bind(this);
   }
   async componentDidMount() {
-    await this.soundObject.loadAsync(require('../assets/catMusic.mp3'));
-    await this.soundObject.setIsLoopingAsync(true);
+    await this.backgroundMusic.loadAsync(require('../assets/catMusic.mp3'));
+    await this.backgroundMusic.setIsLoopingAsync(true);
     this.playOrPauseSong();
   }
   async playOrPauseSong() {
     try {
       if (this.props.playSongStatus) {
-        await this.soundObject.stopAsync();
+        await this.backgroundMusic.stopAsync();
       } else {
-        this.soundObject.playAsync();
+        this.backgroundMusic.playAsync();
       }
       this.props.playPauseSong();
     } catch (error) {

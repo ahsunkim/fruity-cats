@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   icon: {
-    top: 20,
+    top: 10,
   },
 });
 

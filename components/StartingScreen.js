@@ -4,8 +4,9 @@ import {
   StyleSheet,
   Image,
   View,
-  Button,
   Text,
+  TouchableOpacity,
+  Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { toggleInstructions } from '../app/reducers/reducer';
@@ -16,8 +17,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   messageBoard: {
-    width: 345,
-    height: 229,
+    width: Dimensions.get('window').width - 50,
+    resizeMode: 'contain',
     bottom: 250,
     justifyContent: 'center',
     alignItems: 'center',
@@ -28,14 +29,30 @@ const styles = StyleSheet.create({
     resizeMode: 'cover',
     marginBottom: 10,
   },
-  buttonView: { backgroundColor: '#F6F1E5', marginTop: 10 },
-  instructionsButtonView: {
-    backgroundColor: '#5A4224',
-    marginTop: 10,
+  backgroundView: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    paddingTop: 10,
   },
-  textBackgroundView: {
-    backgroundColor: '#F6F1E5',
+  button: {
+    shadowColor: 'rgba(0,0,0, .4)',
+    shadowOffset: { height: 1, width: 1 },
+    shadowOpacity: 1,
+    shadowRadius: 1,
+    backgroundColor: '#F8F3E7',
+    elevation: 2,
+    height: 45,
+    width: 100,
+    justifyContent: 'center',
+    alignItems: 'center',
+    flexDirection: 'row',
+    borderRadius: 20,
+    marginBottom: 5,
+  },
+  buttonText: {
     color: '#5A4224',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   text: {
     fontSize: 18,
@@ -56,47 +73,44 @@ function StartingScreen(props) {
         style={styles.messageBoard}
       >
         {props.instructionsMode ? (
-          <View style={styles.textBackgroundView}>
+          <View style={styles.backgroundView}>
             <Text style={styles.boldText}>
-              Catch fruits that are safe for cats:
+              Catch the fruits that are safe for cats and try to avoid the
+              poisonous ones!
             </Text>
+            <Text style={styles.boldText}>Safe fruits:</Text>
             <Text style={styles.text}>
               Kiwis, Pineapples, Strawberries, Watermelons, Bananas
             </Text>
-            <Text style={styles.boldText}>
-              Avoid fruits that are poisonous to cats:
-            </Text>
+            <Text style={styles.boldText}>Poisonous fruits:</Text>
             <Text style={styles.text}>
               Lemons, Oranges, Peaches, Cherries, Apples
             </Text>
-            <View style={styles.instructionsButtonView}>
-              <Button
-                color="#F6F1E5"
-                onPress={props.toggleInstructions}
-                title="Ok, got it!"
-              />
-            </View>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={props.toggleInstructions}
+            >
+              <Text style={styles.buttonText}>Ok, got it!</Text>
+            </TouchableOpacity>
           </View>
         ) : (
-          <View>
+          <View style={styles.backgroundView}>
             <Image
               source={require('../assets/fruityCats.png')}
               style={styles.logo}
             />
-            <View style={styles.buttonView}>
-              <Button
-                color="#5A4224"
-                onPress={props.startGame}
-                title="Click to Play"
-              />
-            </View>
-            <View style={styles.buttonView}>
-              <Button
-                color="#5A4224"
-                onPress={props.toggleInstructions}
-                title="Instructions"
-              />
-            </View>
+            <TouchableOpacity style={styles.button} onPress={props.startGame}>
+              <Text style={styles.buttonText}>Click to Play</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.button}
+              onPress={props.toggleInstructions}
+            >
+              <Text style={styles.buttonText}>Instructions</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.button}>
+              <Text style={styles.buttonText}>Choose a player</Text>
+            </TouchableOpacity>
           </View>
         )}
       </ImageBackground>
