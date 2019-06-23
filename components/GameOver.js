@@ -1,6 +1,7 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, Text, View, Button } from 'react-native';
 import { connect } from 'react-redux';
+import { updateHighScore } from '../app/reducers/reducer';
 
 const styles = StyleSheet.create({
   container: {
@@ -26,6 +27,9 @@ const styles = StyleSheet.create({
 });
 
 function GameOver(props) {
+  if (props.gameOver && props.highScore < props.points) {
+    props.updateHighScore();
+  }
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -54,6 +58,16 @@ const mapStateToProps = state => ({
   points: state.points,
   highScore: state.highScore,
   badFruit: state.badFruit,
+  gameOver: state.gameOver,
 });
 
-export default connect(mapStateToProps)(GameOver);
+const mapDispatchToProps = dispatch => ({
+  updateHighScore: () => {
+    dispatch(updateHighScore());
+  },
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(GameOver);

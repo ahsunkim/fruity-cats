@@ -74,27 +74,22 @@ const initialState = {
   startMode: true,
   gameOver: false,
 
-  //HERE
   fruitSpeed: 2000,
 
   safeFruit: 'Kiwis',
-  //HERE
   safeFruitSide: 'left',
   safeFruitStartposX: 0,
 
   badFruit: 'Lemons',
-  //HERE
   badFruitSide: 'left',
   badFruitStartposX: 0,
 
-  // HERE
   playerSide: 'left',
+  playerCaught: false,
 
   // moveSafeFruitVal
   // moveBadFruitVal
   // movePlayerVal
-
-  playerCaught: false,
 };
 
 export default (state = initialState, action) => {

@@ -16,7 +16,6 @@ import {
   setSafeFruit,
   setBadFruit,
   setPlayerSide,
-  updateHighScore,
   endGame,
   increaseFruitSpeed,
 } from '../app/reducers/reducer';
@@ -176,8 +175,6 @@ class Game extends Component {
       if (this.props.gameOver === false) {
         await this.props.toggledOffGainPoint();
         this.animateRandomFruit();
-      } else {
-        this.updateHighScore();
       }
     });
   }
@@ -200,11 +197,6 @@ class Game extends Component {
         toValue: Dimensions.get('window').width / 2 - 40,
         tension: 100,
       }).start();
-    }
-  }
-  updateHighScore() {
-    if (this.props.highScore < this.props.points) {
-      this.props.updateHighScore();
     }
   }
   render() {
@@ -261,9 +253,6 @@ const mapDispatchToProps = dispatch => ({
   },
   increaseFruitSpeed: () => {
     dispatch(increaseFruitSpeed());
-  },
-  updateHighScore: () => {
-    dispatch(updateHighScore());
   },
   endGame: () => {
     dispatch(endGame());
