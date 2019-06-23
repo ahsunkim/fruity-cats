@@ -7,6 +7,8 @@ import {
   Button,
   Text,
 } from 'react-native';
+import { connect } from 'react-redux';
+import { toggleInstructions } from '../app/reducers/reducer';
 
 const styles = StyleSheet.create({
   container: {
@@ -46,7 +48,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function StartingScreen(props) {
+function StartingScreen(props) {
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -101,3 +103,18 @@ export default function StartingScreen(props) {
     </View>
   );
 }
+
+const mapStateToProps = state => ({
+  instructionsMode: state.instructionsMode,
+});
+
+const mapDispatchToProps = dispatch => ({
+  toggleInstructions: () => {
+    dispatch(toggleInstructions());
+  },
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StartingScreen);

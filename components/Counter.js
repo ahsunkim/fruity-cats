@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   pointsContainer: {
@@ -23,7 +24,7 @@ const styles = StyleSheet.create({
   points: { fontWeight: 'bold', fontSize: 40 },
 });
 
-export default function Counter(props) {
+function Counter(props) {
   return (
     <View style={{ flex: 1, alignItems: 'center' }}>
       {props.gainedPoint ? (
@@ -38,3 +39,10 @@ export default function Counter(props) {
     </View>
   );
 }
+
+const mapStateToProps = state => ({
+  points: state.points,
+  gainedPoint: state.gainedPoint,
+});
+
+export default connect(mapStateToProps)(Counter);

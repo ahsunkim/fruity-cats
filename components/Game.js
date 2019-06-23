@@ -7,6 +7,19 @@ import StartingScreen from './StartingScreen';
 import BadFruit from './BadFruit';
 import SafeFruit from './SafeFruit';
 import { Audio } from 'expo-av';
+import { connect } from 'react-redux';
+import {
+  gainPointBadFruit,
+  gainPointGoodFruit,
+  toggledOffGainPoint,
+  startGame,
+  setSafeFruit,
+  setBadFruit,
+  setPlayerSide,
+  updateHighScore,
+  endGame,
+  increaseFruitSpeed,
+} from '../app/reducers/reducer';
 
 import {
   StyleSheet,
@@ -23,44 +36,24 @@ const styles = StyleSheet.create({
   },
 });
 
-export default class Game extends Component {
+class Game extends Component {
   constructor() {
     super();
     this.state = {
       // creating the cat player
       movePlayerVal: new Animated.Value(40),
-      // location of cat player
-      playerSide: 'left',
-      // saving whether player caught a safe fruit to display different player sprite
-      playerCaught: false,
-      // starting speed for all fruits
-      fruitSpeed: 2000,
 
       // creating the poisonous fruits
       moveBadFruitVal: new Animated.Value(-100),
-      badFruitStartposX: 0,
-      badFruitSide: 'left',
-      badFruit: 'Lemons',
 
       // creating the safe fruits
       moveSafeFruitVal: new Animated.Value(-100),
-      safeFruitStartposX: 0,
-      safeFruitSide: 'left',
-      safeFruit: 'Kiwis',
-
-      points: 0,
-      gainedPoint: false,
-      startMode: true,
-      instructionsMode: false,
-      gameOver: false,
-      highScore: 0,
     };
     this.movePlayer = this.movePlayer.bind(this);
     this.animateBadFruit = this.animateBadFruit.bind(this);
     this.animateSafeFruit = this.animateSafeFruit.bind(this);
     this.animateRandomFruit = this.animateRandomFruit.bind(this);
     this.startGame = this.startGame.bind(this);
-    this.toggleInstructions = this.toggleInstructions.bind(this);
   }
   componentDidMount() {
     this.playSong();
@@ -76,17 +69,8 @@ export default class Game extends Component {
     }
   }
   async startGame() {
-    await this.setState({
-      startMode: false,
-      gameOver: false,
-      points: 0,
-      fruitSpeed: 2000,
-    });
+    await this.props.startGame();
     this.animateRandomFruit();
-  }
-  toggleInstructions() {
-    const instructionsMode = this.state.instructionsMode;
-    this.setState({ instructionsMode: !instructionsMode });
   }
   animateRandomFruit() {
     const badOrSafeRandomizer = Math.floor(Math.random() * 2);
@@ -105,127 +89,113 @@ export default class Game extends Component {
       this.animateSafeFruit(safeFruitArr[fruitRandomizer]);
     }
   }
-  animateSafeFruit(fruit) {
-    // if the game isn't over...
-    if (!this.state.gameOver) {
-      this.setState({ safeFruit: fruit });
-      this.state.moveSafeFruitVal.setValue(-100);
-      const windowH = Dimensions.get('window').height;
-      let randomizer = Math.floor(Math.random() * 3);
-      if (randomizer === 2) {
-        randomizer = 40;
-        this.setState({ safeFruitSide: 'left' });
-      } else if (randomizer === 1) {
-        randomizer = Dimensions.get('window').width / 2 - 40;
-        this.setState({ safeFruitSide: 'center' });
-      } else if (randomizer === 0) {
-        randomizer = Dimensions.get('window').width - 120;
-        this.setState({ safeFruitSide: 'right' });
-      }
-      this.setState({ safeFruitStartposX: randomizer });
-      let refreshIntervalId = setInterval(() => {
-        if (
-          this.state.moveSafeFruitVal._value > windowH - 200 &&
-          this.state.moveSafeFruitVal._value < windowH - 100 &&
-          this.state.playerSide === this.state.safeFruitSide &&
-          !this.state.gainedPoint
-        ) {
-          let points = this.state.points;
-          this.setState({
-            points: points + 1,
-            gainedPoint: true,
-            playerCaught: true,
-          });
-        }
-      }, 50);
-      setInterval(() => {
-        let fruitSpeed = this.state.fruitSpeed;
-        this.setState({ fruitSpeed: fruitSpeed - 50 });
-      }, 20000);
-      Animated.timing(this.state.moveSafeFruitVal, {
-        toValue: Dimensions.get('window').height,
-        duration: this.state.fruitSpeed,
-      }).start(event => {
-        if (event.finished || this.state.gameOver) {
-          clearInterval(refreshIntervalId);
-        }
-        if (this.state.gameOver === false) {
-          this.setState({ playerCaught: false, gainedPoint: false });
-          this.animateRandomFruit();
-        }
-      });
+  async animateSafeFruit(fruit) {
+    this.state.moveSafeFruitVal.setValue(-100);
+    const windowH = Dimensions.get('window').height;
+    let randomizer = Math.floor(Math.random() * 3);
+    let direction = '';
+    if (randomizer === 2) {
+      randomizer = 40;
+      direction = 'left';
+    } else if (randomizer === 1) {
+      randomizer = Dimensions.get('window').width / 2 - 40;
+      direction = 'center';
+    } else if (randomizer === 0) {
+      randomizer = Dimensions.get('window').width - 120;
+      direction = 'right';
     }
+    await this.props.setSafeFruit(fruit, direction, randomizer);
+    let refreshIntervalId = setInterval(async () => {
+      if (
+        this.state.moveSafeFruitVal._value > windowH - 200 &&
+        this.state.moveSafeFruitVal._value < windowH - 100 &&
+        this.props.playerSide === this.props.safeFruitSide &&
+        !this.props.gainedPoint
+      ) {
+        await this.props.gainPointGoodFruit();
+      }
+    }, 50);
+    setInterval(() => {
+      this.props.increaseFruitSpeed();
+    }, 20000);
+    Animated.timing(this.state.moveSafeFruitVal, {
+      toValue: Dimensions.get('window').height,
+      duration: this.props.fruitSpeed,
+    }).start(event => {
+      if (event.finished || this.props.gameOver) {
+        clearInterval(refreshIntervalId);
+      }
+      if (this.props.gameOver === false) {
+        this.props.toggledOffGainPoint();
+        this.animateRandomFruit();
+      }
+    });
   }
-  animateBadFruit(fruit) {
-    // if the game isn't over...
-    if (!this.state.gameOver) {
-      this.setState({ badFruit: fruit });
-      this.state.moveBadFruitVal.setValue(-100);
-      const windowH = Dimensions.get('window').height;
-      let randomizer = Math.floor(Math.random() * 3);
-      if (randomizer === 2) {
-        randomizer = 40;
-        this.setState({ badFruitSide: 'left' });
-      } else if (randomizer === 1) {
-        randomizer = Dimensions.get('window').width / 2 - 40;
-        this.setState({ badFruitSide: 'center' });
-      } else if (randomizer === 0) {
-        randomizer = Dimensions.get('window').width - 120;
-        this.setState({ badFruitSide: 'right' });
-      }
-      this.setState({ badFruitStartposX: randomizer });
-      let refreshIntervalId = setInterval(() => {
-        if (
-          this.state.moveBadFruitVal._value > windowH - 200 &&
-          this.state.moveBadFruitVal._value < windowH - 100 &&
-          this.state.playerSide === this.state.badFruitSide
-        ) {
-          this.setState({ gameOver: true });
-        } else if (
-          this.state.moveBadFruitVal._value > windowH - 200 &&
-          this.state.moveBadFruitVal._value < windowH - 100 &&
-          this.state.playerSide !== this.state.badFruitSide &&
-          !this.state.gainedPoint
-        ) {
-          let points = this.state.points;
-          this.setState({ points: points + 1, gainedPoint: true });
-        }
-      }, 50);
-      setInterval(() => {
-        let fruitSpeed = this.state.fruitSpeed;
-        this.setState({ fruitSpeed: fruitSpeed - 50 });
-      }, 20000);
-      Animated.timing(this.state.moveBadFruitVal, {
-        toValue: Dimensions.get('window').height,
-        duration: this.state.fruitSpeed,
-      }).start(async event => {
-        if (event.finished || this.state.gameOver) {
-          clearInterval(refreshIntervalId);
-        }
-        if (this.state.gameOver === false) {
-          await this.setState({ gainedPoint: false });
-          this.animateRandomFruit();
-        } else {
-          this.updateHighScore();
-        }
-      });
+  async animateBadFruit(fruit) {
+    this.state.moveBadFruitVal.setValue(-100);
+    const windowH = Dimensions.get('window').height;
+    let randomizer = Math.floor(Math.random() * 3);
+    let direction = '';
+    if (randomizer === 2) {
+      randomizer = 40;
+      direction = 'left';
+    } else if (randomizer === 1) {
+      randomizer = Dimensions.get('window').width / 2 - 40;
+      direction = 'center';
+    } else if (randomizer === 0) {
+      randomizer = Dimensions.get('window').width - 120;
+      direction = 'right';
     }
+    await this.props.setBadFruit(fruit, direction, randomizer);
+    let refreshIntervalId = setInterval(() => {
+      if (
+        this.state.moveBadFruitVal._value > windowH - 200 &&
+        this.state.moveBadFruitVal._value < windowH - 100 &&
+        this.props.playerSide === this.props.badFruitSide
+      ) {
+        this.props.endGame();
+      } else if (
+        this.state.moveBadFruitVal._value > windowH - 200 &&
+        this.state.moveBadFruitVal._value < windowH - 100 &&
+        this.props.playerSide !== this.props.badFruitSide &&
+        !this.props.gainedPoint
+      ) {
+        this.props.gainPointBadFruit();
+      }
+    }, 50);
+    setInterval(() => {
+      this.props.increaseFruitSpeed();
+    }, 20000);
+    Animated.timing(this.state.moveBadFruitVal, {
+      toValue: Dimensions.get('window').height,
+      duration: this.props.fruitSpeed,
+    }).start(async event => {
+      if (event.finished || this.props.gameOver) {
+        clearInterval(refreshIntervalId);
+      }
+      if (this.props.gameOver === false) {
+        await this.props.toggledOffGainPoint();
+        this.animateRandomFruit();
+      } else {
+        this.updateHighScore();
+      }
+    });
   }
   async movePlayer(direction) {
     if (direction === 'right') {
-      await this.setState({ playerSide: 'right' });
+      await this.props.setPlayerSide('right');
       Animated.spring(this.state.movePlayerVal, {
         toValue: Dimensions.get('window').width - 120,
         tension: 100,
       }).start();
     } else if (direction === 'left') {
-      await this.setState({ playerSide: 'left' });
+      await this.props.setPlayerSide('left');
       Animated.spring(this.state.movePlayerVal, {
         toValue: 40,
         tension: 100,
       }).start();
     } else if (direction === 'center') {
-      await this.setState({ playerSide: 'center' });
+      await this.props.setPlayerSide('center');
       Animated.spring(this.state.movePlayerVal, {
         toValue: Dimensions.get('window').width / 2 - 40,
         tension: 100,
@@ -233,8 +203,8 @@ export default class Game extends Component {
     }
   }
   updateHighScore() {
-    if (this.state.highScore < this.state.points) {
-      this.setState({ highScore: this.state.points });
+    if (this.props.highScore < this.props.points) {
+      this.props.updateHighScore();
     }
   }
   render() {
@@ -243,46 +213,64 @@ export default class Game extends Component {
         source={require('../assets/jungle.jpg')}
         style={styles.container}
       >
-        <Counter
-          points={this.state.points}
-          gainedPoint={this.state.gainedPoint}
-        />
-        {this.state.startMode && (
-          <StartingScreen
-            startGame={this.startGame}
-            instructionsMode={this.state.instructionsMode}
-            toggleInstructions={this.toggleInstructions}
-          />
-        )}
-        {this.state.gameOver && (
-          <GameOver
-            startGame={this.startGame}
-            badFruit={this.state.badFruit}
-            highScore={this.state.highScore}
-            points={this.state.points}
-          />
-        )}
-        <Cat
-          movePlayerVal={this.state.movePlayerVal}
-          playerSide={this.state.playerSide}
-          gameOver={this.state.gameOver}
-          playerCaught={this.state.playerCaught}
-        />
-        <SafeFruit
-          safeFruitStartposX={this.state.safeFruitStartposX}
-          moveSafeFruitVal={this.state.moveSafeFruitVal}
-          safeFruit={this.state.safeFruit}
-        />
-        <BadFruit
-          badFruitStartposX={this.state.badFruitStartposX}
-          moveBadFruitVal={this.state.moveBadFruitVal}
-          badFruit={this.state.badFruit}
-        />
-        <Controls
-          movePlayer={this.movePlayer}
-          playerSide={this.state.playerSide}
-        />
+        <Counter />
+        {this.props.startMode && <StartingScreen startGame={this.startGame} />}
+        {this.props.gameOver && <GameOver startGame={this.startGame} />}
+        <Cat movePlayerVal={this.state.movePlayerVal} />
+        <SafeFruit moveSafeFruitVal={this.state.moveSafeFruitVal} />
+        <BadFruit moveBadFruitVal={this.state.moveBadFruitVal} />
+        <Controls movePlayer={this.movePlayer} />
       </ImageBackground>
     );
   }
 }
+
+const mapStateToProps = state => ({
+  points: state.points,
+  highScore: state.highScore,
+  gainedPoint: state.gainedPoint,
+  startMode: state.startMode,
+  gameOver: state.gameOver,
+  playerSide: state.playerSide,
+  safeFruitSide: state.safeFruitSide,
+  badFruitSide: state.badFruitSide,
+  fruitSpeed: state.fruitSpeed,
+});
+
+const mapDispatchToProps = dispatch => ({
+  gainPointBadFruit: () => {
+    dispatch(gainPointBadFruit());
+  },
+  gainPointGoodFruit: () => {
+    dispatch(gainPointGoodFruit());
+  },
+  toggledOffGainPoint: () => {
+    dispatch(toggledOffGainPoint());
+  },
+  startGame: () => {
+    dispatch(startGame());
+  },
+  setSafeFruit: (safeFruit, direction, xPosition) => {
+    dispatch(setSafeFruit(safeFruit, direction, xPosition));
+  },
+  setBadFruit: (badFruit, direction, xPosition) => {
+    dispatch(setBadFruit(badFruit, direction, xPosition));
+  },
+  setPlayerSide: direction => {
+    dispatch(setPlayerSide(direction));
+  },
+  increaseFruitSpeed: () => {
+    dispatch(increaseFruitSpeed());
+  },
+  updateHighScore: () => {
+    dispatch(updateHighScore());
+  },
+  endGame: () => {
+    dispatch(endGame());
+  },
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Game);

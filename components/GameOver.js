@@ -1,5 +1,6 @@
 import React from 'react';
 import { ImageBackground, StyleSheet, Text, View, Button } from 'react-native';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   container: {
@@ -24,7 +25,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function GameOver(props) {
+function GameOver(props) {
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -48,3 +49,11 @@ export default function GameOver(props) {
     </View>
   );
 }
+
+const mapStateToProps = state => ({
+  points: state.points,
+  highScore: state.highScore,
+  badFruit: state.badFruit,
+});
+
+export default connect(mapStateToProps)(GameOver);

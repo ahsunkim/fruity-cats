@@ -1,7 +1,8 @@
 import React from 'react';
 import { Animated } from 'react-native';
+import { connect } from 'react-redux';
 
-export default function Cat(props) {
+function Cat(props) {
   let catStyle = {
     position: 'absolute',
     zIndex: 1,
@@ -69,3 +70,11 @@ export default function Cat(props) {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  playerCaught: state.playerCaught,
+  playerSide: state.playerSide,
+  gameOver: state.gameOver,
+});
+
+export default connect(mapStateToProps)(Cat);

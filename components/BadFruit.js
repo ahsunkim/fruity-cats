@@ -1,7 +1,8 @@
 import React from 'react';
 import { Animated } from 'react-native';
+import { connect } from 'react-redux';
 
-export default function BadFruit(props) {
+function BadFruit(props) {
   let badFruitStyle = {
     position: 'absolute',
     // Allows you to set the fruit on certain places of the screen (left, right, center) based on x-coordinates
@@ -46,3 +47,10 @@ export default function BadFruit(props) {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  badFruit: state.badFruit,
+  badFruitStartposX: state.badFruitStartposX,
+});
+
+export default connect(mapStateToProps)(BadFruit);

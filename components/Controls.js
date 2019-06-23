@@ -1,10 +1,6 @@
 import React from 'react';
-import {
-  View,
-  StyleSheet,
-  Image,
-  TouchableOpacity,
-} from 'react-native';
+import { View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { connect } from 'react-redux';
 
 const styles = StyleSheet.create({
   control: {
@@ -19,7 +15,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function Controls(props) {
+function Controls(props) {
   return (
     <View style={styles.control}>
       {props.playerSide === 'right' ? (
@@ -55,3 +51,9 @@ export default function Controls(props) {
     </View>
   );
 }
+
+const mapStateToProps = state => ({
+  playerSide: state.playerSide,
+});
+
+export default connect(mapStateToProps)(Controls);
