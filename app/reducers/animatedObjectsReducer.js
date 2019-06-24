@@ -6,23 +6,21 @@ const CHANGE_PLAYER = 'CHANGE_PLAYER';
 const TOGGLE_PLAYERS_MODE = 'TOGGLE_PLAYERS_MODE';
 
 // Action creators
-export const setSafeFruit = (safeFruit, direction, xPosition) => ({
+export const setSafeFruit = (safeFruit, xPosition) => ({
   type: SET_SAFE_FRUIT,
   safeFruit,
-  direction,
   xPosition,
 });
 
-export const setBadFruit = (badFruit, direction, xPosition) => ({
+export const setBadFruit = (badFruit, xPosition) => ({
   type: SET_BAD_FRUIT,
   badFruit,
-  direction,
   xPosition,
 });
 
-export const setPlayerSide = direction => ({
+export const setPlayerPos = xPosition => ({
   type: SET_PLAYER_SIDE,
-  direction,
+  xPosition,
 });
 
 export const changePlayer = cat => ({
@@ -39,14 +37,12 @@ const initialState = {
   playerMode: false,
 
   safeFruit: 'Kiwis',
-  safeFruitSide: 'left',
-  safeFruitStartposX: 0,
+  safeFruitPosX: 0,
 
   badFruit: 'Lemons',
-  badFruitSide: 'left',
-  badFruitStartposX: 0,
+  badFruitPosX: 0,
 
-  playerSide: 'left',
+  playerPosX: 40,
   catPlayer: 'Berry',
 
   // moveSafeFruitVal
@@ -60,20 +56,18 @@ export default (state = initialState, action) => {
       return {
         ...state,
         safeFruit: action.safeFruit,
-        safeFruitSide: action.direction,
-        safeFruitStartposX: action.xPosition,
+        safeFruitPosX: action.xPosition,
       };
     case SET_BAD_FRUIT:
       return {
         ...state,
         badFruit: action.badFruit,
-        badFruitSide: action.direction,
-        badFruitStartposX: action.xPosition,
+        badFruitPosX: action.xPosition,
       };
     case SET_PLAYER_SIDE:
       return {
         ...state,
-        playerSide: action.direction,
+        playerPosX: action.xPosition,
       };
     case CHANGE_PLAYER:
       return {

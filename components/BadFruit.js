@@ -6,7 +6,7 @@ function BadFruit(props) {
   let badFruitStyle = {
     position: 'absolute',
     // Allows you to set the fruit on certain places of the screen (left, right, center) based on x-coordinates
-    left: props.badFruitStartposX,
+    left: props.badFruitPosX,
     // Allows you to animate vertically
     transform: [{ translateY: props.moveBadFruitVal }],
   };
@@ -50,7 +50,7 @@ function BadFruit(props) {
 
 const mapStateToProps = state => ({
   badFruit: state.animatedObject.badFruit,
-  badFruitStartposX: state.animatedObject.badFruitStartposX,
+  badFruitPosX: state.animatedObject.badFruitPosX,
 });
 
 export default connect(mapStateToProps)(BadFruit);

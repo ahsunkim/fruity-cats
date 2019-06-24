@@ -1,5 +1,5 @@
 import React from 'react';
-import { Animated } from 'react-native';
+import { Animated, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 
 function Cat(props) {
@@ -43,7 +43,7 @@ function Cat(props) {
           ]}
         />
       );
-    } else if (props.playerSide === 'left' || props.playerSide === 'center') {
+    } else if (props.playerPosX < Dimensions.get('window').width / 2) {
       return (
         <Animated.Image
           source={require('../assets/berryLeft.png')}
@@ -56,7 +56,7 @@ function Cat(props) {
           ]}
         />
       );
-    } else if (props.playerSide === 'right') {
+    } else if (props.playerPosX >= Dimensions.get('window').width / 2) {
       return (
         <Animated.Image
           source={require('../assets/berryRight.png')}
@@ -98,7 +98,7 @@ function Cat(props) {
           ]}
         />
       );
-    } else if (props.playerSide === 'left' || props.playerSide === 'center') {
+    } else if (props.playerPosX < Dimensions.get('window').width/2) {
       return (
         <Animated.Image
           source={require('../assets/citrusLeft.png')}
@@ -111,7 +111,7 @@ function Cat(props) {
           ]}
         />
       );
-    } else if (props.playerSide === 'right') {
+    } else if (props.playerPosX >= Dimensions.get('window').width/2) {
       return (
         <Animated.Image
           source={require('../assets/citrusRight.png')}
@@ -130,7 +130,7 @@ function Cat(props) {
 
 const mapStateToProps = state => ({
   playerCaught: state.gameLogic.playerCaught,
-  playerSide: state.animatedObject.playerSide,
+  playerPosX: state.animatedObject.playerPosX,
   gameOver: state.gameLogic.gameOver,
   catPlayer: state.animatedObject.catPlayer,
 });

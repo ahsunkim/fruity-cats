@@ -6,7 +6,7 @@ function SafeFruit(props) {
   let safeFruitStyle = {
     position: 'absolute',
     // Allows you to set the fruit on certain places of the screen (left, right, center) based on x-coordinates
-    left: props.safeFruitStartposX,
+    left: props.safeFruitPosX,
     // Allows you to animate vertically
     transform: [{ translateY: props.moveSafeFruitVal }],
   };
@@ -50,7 +50,7 @@ function SafeFruit(props) {
 
 const mapStateToProps = state => ({
   safeFruit: state.animatedObject.safeFruit,
-  safeFruitStartposX: state.animatedObject.safeFruitStartposX,
+  safeFruitPosX: state.animatedObject.safeFruitPosX,
 });
 
 export default connect(mapStateToProps)(SafeFruit);
