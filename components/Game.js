@@ -56,6 +56,8 @@ class Game extends Component {
       moveSafeFruitVal: new Animated.Value(-100),
     };
     this.backgroundMusic = new Audio.Sound();
+    this.gainPointSound = new Audio.Sound();
+    this.gameOverSound = new Audio.Sound();
     this.animateBadFruit = this.animateBadFruit.bind(this);
     this.animateSafeFruit = this.animateSafeFruit.bind(this);
     this.animateRandomFruit = this.animateRandomFruit.bind(this);
@@ -64,6 +66,8 @@ class Game extends Component {
   }
   async componentDidMount() {
     await this.backgroundMusic.loadAsync(require('../assets/catMusic.mp3'));
+    await this.gainPointSound.loadAsync(require('../assets/gainPoint.mp3'));
+    await this.gameOverSound.loadAsync(require('../assets/gameOver.mp3'));
     await this.backgroundMusic.setIsLoopingAsync(true);
     // this.playOrPauseSong();
   }
@@ -129,6 +133,7 @@ class Game extends Component {
         !this.props.gainedPoint
       ) {
         await this.props.gainPointGoodFruit();
+        this.gainPointSound.replayAsync();
       }
     }, 50);
     setInterval(() => {
@@ -162,9 +167,11 @@ class Game extends Component {
           this.props.playerPosX <= randomizer + 70
         ) {
           this.props.endGame();
+          this.gameOverSound.replayAsync();
         } else {
           if (!this.props.gainedPoint) {
             this.props.gainPointBadFruit();
+            this.gainPointSound.replayAsync();
           }
         }
       }
