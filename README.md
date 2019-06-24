@@ -12,7 +12,7 @@ Please note you'll need an expo account to take a look.
 
 ## Setup
 
-To look at our repo locally, you'll need to take the following steps:
+To look at the repo locally, you'll need to take the following steps:
 
 1. Fork and clone this repo
 2. `npm install`
