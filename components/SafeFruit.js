@@ -49,8 +49,8 @@ function SafeFruit(props) {
 }
 
 const mapStateToProps = state => ({
-  safeFruit: state.safeFruit,
-  safeFruitStartposX: state.safeFruitStartposX
+  safeFruit: state.animatedObject.safeFruit,
+  safeFruitStartposX: state.animatedObject.safeFruitStartposX,
 });
 
 export default connect(mapStateToProps)(SafeFruit);

@@ -129,10 +129,10 @@ function Cat(props) {
 }
 
 const mapStateToProps = state => ({
-  playerCaught: state.playerCaught,
-  playerSide: state.playerSide,
-  gameOver: state.gameOver,
-  catPlayer: state.catPlayer,
+  playerCaught: state.gameLogic.playerCaught,
+  playerSide: state.animatedObject.playerSide,
+  gameOver: state.gameLogic.gameOver,
+  catPlayer: state.animatedObject.catPlayer,
 });
 
 export default connect(mapStateToProps)(Cat);

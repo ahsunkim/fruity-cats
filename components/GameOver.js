@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { connect } from 'react-redux';
-import { updateHighScore } from '../app/reducers/reducer';
+import { updateHighScore } from '../app/reducers/gameLogicReducer';
 
 const styles = StyleSheet.create({
   container: {
@@ -81,10 +81,10 @@ function GameOver(props) {
 }
 
 const mapStateToProps = state => ({
-  points: state.points,
-  highScore: state.highScore,
-  badFruit: state.badFruit,
-  gameOver: state.gameOver,
+  points: state.gameLogic.points,
+  highScore: state.gameLogic.highScore,
+  badFruit: state.animatedObject.badFruit,
+  gameOver: state.gameLogic.gameOver,
 });
 
 const mapDispatchToProps = dispatch => ({

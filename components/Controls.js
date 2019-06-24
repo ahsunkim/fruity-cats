@@ -53,7 +53,7 @@ function Controls(props) {
 }
 
 const mapStateToProps = state => ({
-  playerSide: state.playerSide,
+  playerSide: state.animatedObject.playerSide,
 });
 
 export default connect(mapStateToProps)(Controls);

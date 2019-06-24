@@ -15,12 +15,18 @@ import {
   toggledOffGainPoint,
   startGame,
   endGame,
+  increaseFruitSpeed,
+} from '../app/reducers/gameLogicReducer';
+
+import {
   playPauseSong,
+} from '../app/reducers/gameSettingsReducer';
+
+import {
   setSafeFruit,
   setBadFruit,
   setPlayerSide,
-  increaseFruitSpeed,
-} from '../app/reducers/reducer';
+} from '../app/reducers/animatedObjectsReducer';
 
 import {
   StyleSheet,
@@ -61,7 +67,7 @@ class Game extends Component {
   async componentDidMount() {
     await this.backgroundMusic.loadAsync(require('../assets/catMusic.mp3'));
     await this.backgroundMusic.setIsLoopingAsync(true);
-    this.playOrPauseSong();
+    // this.playOrPauseSong();
   }
   async playOrPauseSong() {
     try {
@@ -227,16 +233,16 @@ class Game extends Component {
 }
 
 const mapStateToProps = state => ({
-  points: state.points,
-  highScore: state.highScore,
-  gainedPoint: state.gainedPoint,
-  startMode: state.startMode,
-  gameOver: state.gameOver,
-  playerSide: state.playerSide,
-  safeFruitSide: state.safeFruitSide,
-  badFruitSide: state.badFruitSide,
-  fruitSpeed: state.fruitSpeed,
-  playSongStatus: state.playSongStatus,
+  points: state.gameLogic.points,
+  highScore: state.gameLogic.highScore,
+  gainedPoint: state.gameLogic.gainedPoint,
+  startMode: state.gameLogic.startMode,
+  gameOver: state.gameLogic.gameOver,
+  playerSide: state.animatedObject.playerSide,
+  safeFruitSide: state.animatedObject.safeFruitSide,
+  badFruitSide: state.animatedObject.badFruitSide,
+  fruitSpeed: state.gameLogic.fruitSpeed,
+  playSongStatus: state.gameSettings.playSongStatus,
 });
 
 const mapDispatchToProps = dispatch => ({

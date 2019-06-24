@@ -9,11 +9,12 @@ import {
   Dimensions,
 } from 'react-native';
 import { connect } from 'react-redux';
+import { toggleInstructions } from '../app/reducers/gameSettingsReducer';
+
 import {
-  toggleInstructions,
   togglePlayerMode,
   changePlayer,
-} from '../app/reducers/reducer';
+} from '../app/reducers/animatedObjectsReducer';
 
 const styles = StyleSheet.create({
   container: {
@@ -169,8 +170,8 @@ function StartingScreen(props) {
 }
 
 const mapStateToProps = state => ({
-  instructionsMode: state.instructionsMode,
-  playerMode: state.playerMode,
+  instructionsMode: state.gameSettings.instructionsMode,
+  playerMode: state.animatedObject.playerMode,
 });
 
 const mapDispatchToProps = dispatch => ({

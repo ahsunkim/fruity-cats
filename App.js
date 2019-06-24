@@ -3,9 +3,9 @@ import Game from './components/Game';
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
-import reducer from './app/reducers/reducer';
+import rootReducer from './app/reducers';
 
-const store = createStore(reducer);
+const store = createStore(rootReducer);
 
 export default class App extends Component {
   render() {

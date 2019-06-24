@@ -41,8 +41,8 @@ function Counter(props) {
 }
 
 const mapStateToProps = state => ({
-  points: state.points,
-  gainedPoint: state.gainedPoint,
+  points: state.gameLogic.points,
+  gainedPoint: state.gameLogic.gainedPoint,
 });
 
 export default connect(mapStateToProps)(Counter);

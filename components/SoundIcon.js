@@ -21,7 +21,7 @@ function SoundIcon(props) {
 }
 
 const mapStateToProps = state => ({
-  playSongStatus: state.playSongStatus,
+  playSongStatus: state.gameSettings.playSongStatus,
 });
 
 export default connect(mapStateToProps)(SoundIcon);

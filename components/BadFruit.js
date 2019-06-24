@@ -49,8 +49,8 @@ function BadFruit(props) {
 }
 
 const mapStateToProps = state => ({
-  badFruit: state.badFruit,
-  badFruitStartposX: state.badFruitStartposX,
+  badFruit: state.animatedObject.badFruit,
+  badFruitStartposX: state.animatedObject.badFruitStartposX,
 });
 
 export default connect(mapStateToProps)(BadFruit);
