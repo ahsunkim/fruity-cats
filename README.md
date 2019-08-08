@@ -4,7 +4,7 @@ Fruity Cats is a mobile app game that gamifies educating players on which fruits
 
 It's built with React, React-Native, and Redux for the frontend. This is a solo dev project coded up by Ahsun Kim.
 
-Come checkout my presentation on this here: https://youtu.be/XKPQCgb17Zc
+Come check out my presentation on this here: https://youtu.be/XKPQCgb17Zc
 
 ## Deployed copy
 
