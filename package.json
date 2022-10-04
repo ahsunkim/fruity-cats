@@ -8,7 +8,7 @@
     "eject": "expo eject"
   },
   "dependencies": {
-    "expo": "^33.0.0",
+    "expo": "^46.0.14",
     "expo-av": "^5.0.2",
     "matter-js": "^0.14.2",
     "react": "16.8.3",
